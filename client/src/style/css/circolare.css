@@ -1,0 +1,32 @@
+div.circolare {
+  background-color: white;
+  padding: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 15px black;
+          box-shadow: 15px black;
+  font-size: 16px;
+  border: black 1px solid;
+  padding-left: 30px;
+}
+
+p.id {
+  color: black;
+  font-style: oblique;
+}
+
+p.title {
+  color: red;
+  font-style: bold;
+  font-size: 20px;
+}
+
+p.description {
+  color: black;
+  font-size: 16px;
+  text-align: left;
+}
+
+p.tags {
+  color: lightblue;
+}
+/*# sourceMappingURL=circolare.css.map */

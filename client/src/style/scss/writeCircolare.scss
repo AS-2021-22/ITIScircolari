@@ -1,0 +1,49 @@
+body{
+    background-color:rgb(193, 233, 252);
+    padding: 3rem;
+}
+
+form.formWrite{
+    position: absolute;
+    left:auto;
+    right:auto;
+    box-shadow: 10px black;
+    background-color: white;
+    border-radius:20px;
+    padding:20px;
+    width: 50%;
+    align-content: center;
+}
+
+input{
+    margin: 10px;
+    position:relative;
+}
+
+input.inputTitolo{
+    font-weight: bold;
+}
+
+textarea.inputDescrizione{
+    margin-block-end: 10px;
+    margin-left: 10px;
+    position: relative;
+    align-content: center;
+    width: 90%;
+    height: 200px;
+}
+
+input.submitButton{
+    position: relative;
+    color:white;
+    background-color: rgb(0, 0, 255);
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: 130px;
+}
+
+input.inputPassword{
+    font-style: oblique;
+}
+

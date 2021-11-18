@@ -1,0 +1,35 @@
+div.container {
+  padding: 5px;
+  background-color: beige;
+  margin-top: 2px;
+  margin-left: 5px;
+  border: 1px solid black;
+  position: relative;
+}
+
+.link {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  text-decoration: none;
+}
+
+p.number {
+  width: 50px;
+  font-style: normal;
+  font-size: 16px;
+  color: black;
+  text-align: center;
+  -ms-flex-line-pack: start;
+      align-content: flex-start;
+}
+
+p.title {
+  text-align: left;
+  font-style: bold;
+  font-size: 16px;
+  color: red;
+  -ms-flex-line-pack: end;
+      align-content: flex-end;
+}
+/*# sourceMappingURL=circolarePreview.css.map */

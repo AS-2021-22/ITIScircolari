@@ -1,0 +1,53 @@
+body {
+  background-color: #c1e9fc;
+  padding: 3rem;
+}
+
+form.formWrite {
+  position: absolute;
+  left: auto;
+  right: auto;
+  -webkit-box-shadow: 10px black;
+          box-shadow: 10px black;
+  background-color: white;
+  border-radius: 20px;
+  padding: 20px;
+  width: 50%;
+  -ms-flex-line-pack: center;
+      align-content: center;
+}
+
+input {
+  margin: 10px;
+  position: relative;
+}
+
+input.inputTitolo {
+  font-weight: bold;
+}
+
+textarea.inputDescrizione {
+  -webkit-margin-after: 10px;
+          margin-block-end: 10px;
+  margin-left: 10px;
+  position: relative;
+  -ms-flex-line-pack: center;
+      align-content: center;
+  width: 90%;
+  height: 200px;
+}
+
+input.submitButton {
+  position: relative;
+  color: white;
+  background-color: blue;
+  border-radius: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  margin-left: 130px;
+}
+
+input.inputPassword {
+  font-style: oblique;
+}
+/*# sourceMappingURL=writeCircolare.css.map */
