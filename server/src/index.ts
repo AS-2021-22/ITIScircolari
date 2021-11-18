@@ -60,7 +60,6 @@ app.post('/circolari/write', async (req:Request,res:Response) => {
         const {titolo,descrizione,tags} = req.body
         const n = await CircolareModel.countDocuments()
         const newCircolare = new CircolareModel({id:n + 1,title:titolo,description:descrizione,tags:tags})
-        //console.log(newCircolare)
         newCircolare.save().catch(err => console.log('element already exists'))
         res.status(200).send('inviata')
     } else res.status(500).send('wrong password')
@@ -75,10 +74,10 @@ app.post('/circolari',(req:any,res:any) => {
         }        
     }
     if(!req.body.filter || JSON.stringify(req.body.filter) === JSON.stringify([]) || typeof([]) !== typeof(req.body.filter)) {
-        CircolareModel.find({}).sort({id:"desc"}).then(result => res.json(result)).catch(e => res.json([]))
+        CircolareModel.find({},'id title').sort({id:"desc"}).then(result => res.json(result)).catch(e => res.json([]))
     }
     else{
-        CircolareModel.find({"tags":{"$in":[...req.body.filter,'tutti']}}).sort({id:"desc"}).then(result => res.json(result)).catch(e => res.json([]))
+        CircolareModel.find({"tags":{"$in":[...req.body.filter,'tutti']}},'id title').sort({id:"desc"}).then(result => res.json(result)).catch(e => res.json([]))
     }
 })
 
