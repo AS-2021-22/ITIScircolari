@@ -1,12 +1,14 @@
 package com.example.circolariitis
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.AlarmClock.EXTRA_MESSAGE
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -85,6 +87,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        val intent = Intent(this, DisplayCircolareFull::class.java).apply {
+            putExtra("id",1 )
+        }
+        startActivity(intent)
         when(item.itemId){
             R.id.filterMenu -> openFilterDialog()
         }
