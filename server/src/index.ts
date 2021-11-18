@@ -35,18 +35,6 @@ app.get('/',(req:any,res:any) => {
 
 app.get('/circolari',(req:any,res:any) => {
     CircolareModel.find({}).sort({id:"desc"}).then(result => res.json(result)).catch(e => res.json([]))
-    
-
-    // res.json(
-    //     [
-    //         {"_id":"618e27e7ae0e9ab0fd8e59ec","id":1,"title":"first","description":"vdiuscvsi9hs","tags":["tutti"],"__v":0},
-    //         {"_id":"618e2d37377ca81f671edd40","id":2,"title":"second","description":"bgfdbdf","tags":["quinte","seconde"],"__v":0},
-    //         {"_id":"618e3088876b596dc64baea2","id":7,"title":"inizio scuola","description":"inizia a settembre","tags":["tutti"],"__v":0},
-    //         {"_id":"618e3088876b596dc64baea3","id":6,"title":"consiglio di classe","description":"straordinatio per fine anno","tags":["quinte"],"__v":0},
-    //         {"_id":"618e3088876b596dc64baea4","id":3,"title":"incontro con esperto","description":"disabilità e startup","tags":["quarte","seconde"],"__v":0},
-    //         {"_id":"618e3088876b596dc64baea6","id":5,"title":"gita a Trieste","description":"accompagnatori: Prof 1, Prof 2","tags":["prime","seconde"],"__v":0},
-    //         {"_id":"618e3088876b596dc64baea5","id":4,"title":"corso di sicurezza","description":"con maestri del lavoro in bibblioteca","tags":["terze"],"__v":0}
-    //     ])
 })
 
 app.get('/circolari/:id',(req:Request,res:Response) => {
