@@ -16,16 +16,15 @@ class FiltriDiffutil(
     }
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        if(oldList[oldItemPosition].id == newList[newItemPosition].id) return true
-        else return false
+        return oldList[oldItemPosition].id == newList[newItemPosition].id
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        when{
-            oldList[oldItemPosition].id != newList[newItemPosition].id -> return false
-            oldList[oldItemPosition].text != newList[newItemPosition].text -> return false
-            oldList[oldItemPosition].active != newList[newItemPosition].active -> return false
-            else -> return true
+        return when{
+            oldList[oldItemPosition].id != newList[newItemPosition].id -> false
+            oldList[oldItemPosition].text != newList[newItemPosition].text -> false
+            oldList[oldItemPosition].active != newList[newItemPosition].active -> false
+            else -> true
         }
     }
 

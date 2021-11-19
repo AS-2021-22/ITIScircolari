@@ -16,16 +16,14 @@ class CircolariDiffutil (
     }
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        if(oldList[oldItemPosition].id == newList[newItemPosition].id) return true
-        else return false
+        return oldList[oldItemPosition].id == newList[newItemPosition].id
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        when{
-            oldList[oldItemPosition].id != newList[newItemPosition].id -> return false
-            oldList[oldItemPosition].title != newList[newItemPosition].title -> return false
-            //oldList[oldItemPosition].description != newList[newItemPosition].description -> return false
-            else -> return true
+        return when{
+            oldList[oldItemPosition].id != newList[newItemPosition].id -> false
+            oldList[oldItemPosition].title != newList[newItemPosition].title -> false
+            else -> true
         }
     }
 

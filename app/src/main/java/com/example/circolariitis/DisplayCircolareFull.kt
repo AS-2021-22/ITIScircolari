@@ -31,7 +31,7 @@ class DisplayCircolareFull : AppCompatActivity() {
         val stringReq : StringRequest =
             object : StringRequest(
                 Method.GET,
-                GLOBALS.GET_CIRCOLARE + "${id}",
+                GLOBALS.GET_CIRCOLARE + "$id",
                 Response.Listener { response ->
                     Log.d("data", response.toString())
                     val strResp = response.toString()

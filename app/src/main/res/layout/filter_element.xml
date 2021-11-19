@@ -9,7 +9,6 @@
     <CheckBox
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="name of filter"
         android:id="@+id/filter"
         android:checked="false"
         />

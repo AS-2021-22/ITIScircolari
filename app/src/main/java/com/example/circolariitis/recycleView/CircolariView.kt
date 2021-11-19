@@ -13,20 +13,20 @@ import java.util.*
 
 class CircolariView : RecyclerView.Adapter<CircolariView.ViewHolder>() {
 
-    private lateinit var mListener : onItemClickListener
+    private lateinit var mListener : OnItemClickListener
 
-    interface onItemClickListener{
+    interface OnItemClickListener{
         fun onItemClick(position: Int)
     }
 
-    fun setOnItemClickListener(listener: onItemClickListener){
+    fun setOnItemClickListener(listener: OnItemClickListener){
         mListener = listener
 
     }
 
     private var circolari = Collections.emptyList<CircolarePreview>()
 
-    inner class ViewHolder(itemView: View, listener: onItemClickListener) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View, listener: OnItemClickListener) : RecyclerView.ViewHolder(itemView) {
         var title: TextView = itemView.findViewById(R.id.title)
         var id: TextView = itemView.findViewById(R.id.number)
         init{

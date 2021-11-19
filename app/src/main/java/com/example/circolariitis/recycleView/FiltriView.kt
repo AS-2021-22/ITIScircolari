@@ -18,7 +18,7 @@ class FiltriView : RecyclerView.Adapter<FiltriView.ViewHolder>() {
         return filtri
     }
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        var filtro = itemView.findViewById<CheckBox>(R.id.filter)
+        val filtro = itemView.findViewById<CheckBox>(R.id.filter)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

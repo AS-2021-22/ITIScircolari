@@ -27,7 +27,7 @@ class FilterDialogFragment : DialogFragment() {
 
     private val gson: Gson = Gson()
     private lateinit var sharedPreferences: SharedPreferences
-    private var filtri: MutableList<Filtro> = mutableListOf<Filtro>()
+    private var filtri: MutableList<Filtro> = mutableListOf()
 
     private lateinit var adapter: FiltriView
 

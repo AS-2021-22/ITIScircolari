@@ -3,9 +3,6 @@ package com.example.circolariitis
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -26,8 +23,6 @@ import java.util.*
 import kotlin.collections.HashMap
 
 class MainActivity : AppCompatActivity() {
-
-    // TODO: implement a second activity !!!
 
     private lateinit var activityViewElements : ActivityMainBinding // V -> view
     private var layoutManager: RecyclerView.LayoutManager? = null
@@ -53,15 +48,11 @@ class MainActivity : AppCompatActivity() {
         activityViewElements.circolariView.layoutManager = layoutManager
         activityViewElements.circolariView.adapter = adapter
 
-        adapter.setOnItemClickListener(object: CircolariView.onItemClickListener{
+        adapter.setOnItemClickListener(object: CircolariView.OnItemClickListener{
             override fun onItemClick(position: Int) {
                 showCircolareFull(listCircolariFromServer[position].id)
             }
         })
-
-        //display connection state
-        //if(isNetworkAvailable(this)) Toast.makeText(this,"Internet connection available", Toast.LENGTH_LONG).show()
-        //else Toast.makeText(this,"No internet connection", Toast.LENGTH_LONG).show()
 
         activityViewElements.refreshLayout.setOnRefreshListener {
             circolariPOST()
@@ -145,31 +136,5 @@ class MainActivity : AppCompatActivity() {
     private fun openFilterDialog(){
         val dialog = FilterDialogFragment()
         dialog.show(supportFragmentManager, "Filter Dialog")
-
-    }
-
-    //from internet
-
-    private fun isNetworkAvailable(context: Context): Boolean {
-        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
-        // For 29 api or above
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork) ?: return false
-            return when {
-                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ->    true
-                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) ->   true
-                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) ->   true
-                else ->     false
-            }
-        }
-        // For below 29 api
-        /*
-        else {
-            if (connectivityManager.activeNetworkInfo != null && connectivityManager.activeNetworkInfo!!.isConnectedOrConnecting) {
-                return true
-            }
-        }*/
-        return false
     }
 }
