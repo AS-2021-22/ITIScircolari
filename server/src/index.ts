@@ -28,6 +28,7 @@ mongoose.connect(process.env.DB_URL || 'error')
         //let newCircolare = new CircolareModel({id:2,title:"second",description:"bgfdbdf",tags:["quinte","seconde"]})
         //newCircolare.save().catch(e => console.log("impossible duplicate keys"))
     }).catch((e) => {
+        console.log(e)
         console.log(`DB not connected`)
     })
 

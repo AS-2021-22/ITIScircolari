@@ -1,5 +1,6 @@
 package com.example.circolariitis
 
+import android.content.ClipData
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,23 +11,37 @@ import java.util.*
 
 class CircolariView : RecyclerView.Adapter<CircolariView.ViewHolder>() {
 
+    private lateinit var mListener : onItemClickListener
+
+    interface onItemClickListener{
+        fun onItemClick(position: Int)
+    }
+
+    fun setOnItemClickListener(listener: onItemClickListener){
+        mListener = listener
+
+    }
+
     private var circolari = Collections.emptyList<CircolarePreview>()
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View, listener: onItemClickListener) : RecyclerView.ViewHolder(itemView) {
         var title: TextView = itemView.findViewById(R.id.title)
-        //var description: TextView = itemView.findViewById(R.id.description)
         var id: TextView = itemView.findViewById(R.id.number)
+        init{
+            itemView.setOnClickListener{
+                listener.onItemClick(adapterPosition)
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CircolariView.ViewHolder {
         val v =
             LayoutInflater.from(parent.context).inflate(R.layout.circolare_preview, parent, false)
-        return ViewHolder(v)
+        return ViewHolder(v, mListener)
     }
 
     override fun onBindViewHolder(holder: CircolariView.ViewHolder, position: Int) {
         holder.title.text = circolari[position].title
-        //holder.description.text = circolari[position].description
         holder.id.text = circolari[position].id.toString()
     }
 

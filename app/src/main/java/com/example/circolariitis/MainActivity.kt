@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity() {
     private var filters : List<String> = Collections.emptyList()
     private lateinit var sharedPreferences: SharedPreferences
     private val gson = Gson()
+    private var listCircolariFromServer: List<CircolarePreview> = emptyList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,9 +52,15 @@ class MainActivity : AppCompatActivity() {
         activityViewElements.circolariView.layoutManager = layoutManager
         activityViewElements.circolariView.adapter = adapter
 
+        adapter.setOnItemClickListener(object: CircolariView.onItemClickListener{
+            override fun onItemClick(position: Int) {
+                showCircolareFull(listCircolariFromServer[position].id)
+            }
+        })
+
         //display connection state
-        if(isNetworkAvailable(this)) Toast.makeText(this,"Internet connection available", Toast.LENGTH_LONG).show()
-        else Toast.makeText(this,"No internet connection", Toast.LENGTH_LONG).show()
+        //if(isNetworkAvailable(this)) Toast.makeText(this,"Internet connection available", Toast.LENGTH_LONG).show()
+        //else Toast.makeText(this,"No internet connection", Toast.LENGTH_LONG).show()
 
         activityViewElements.refreshLayout.setOnRefreshListener {
             circolariPOST()
@@ -87,15 +94,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
-        val intent = Intent(this, DisplayCircolareFull::class.java).apply {
-            putExtra("id",1 )
-        }
-        startActivity(intent)
         when(item.itemId){
             R.id.filterMenu -> openFilterDialog()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun showCircolareFull(id : Int){
+        val intent = Intent(this, DisplayCircolareFull::class.java).apply {
+            putExtra("id",id )
+        }
+        startActivity(intent)
     }
 
     private fun circolariPOST(){
@@ -109,7 +118,7 @@ class MainActivity : AppCompatActivity() {
                     // response
                     val strResp = response.toString()
                     val mutableListTutorialType = object : TypeToken<List<CircolarePreview>>() {}.type
-                    val listCircolariFromServer: List<CircolarePreview> = gson.fromJson(strResp, mutableListTutorialType)
+                    listCircolariFromServer = gson.fromJson(strResp, mutableListTutorialType)
                     adapter.setData(listCircolariFromServer)
                 },
                 Response.ErrorListener { error ->
