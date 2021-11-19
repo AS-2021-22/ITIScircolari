@@ -1,12 +1,14 @@
-package com.example.circolariitis
+package com.example.circolariitis.recycleView
 
-import android.content.ClipData
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.circolariitis.diffUtils.CircolariDiffutil
+import com.example.circolariitis.R
+import com.example.circolariitis.dataClasses.CircolarePreview
 import java.util.*
 
 class CircolariView : RecyclerView.Adapter<CircolariView.ViewHolder>() {
@@ -34,13 +36,13 @@ class CircolariView : RecyclerView.Adapter<CircolariView.ViewHolder>() {
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CircolariView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v =
             LayoutInflater.from(parent.context).inflate(R.layout.circolare_preview, parent, false)
         return ViewHolder(v, mListener)
     }
 
-    override fun onBindViewHolder(holder: CircolariView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.title.text = circolari[position].title
         holder.id.text = circolari[position].id.toString()
     }

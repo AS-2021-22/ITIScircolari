@@ -1,4 +1,4 @@
-package com.example.circolariitis
+package com.example.circolariitis.recycleView
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,6 +6,9 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.circolariitis.diffUtils.FiltriDiffutil
+import com.example.circolariitis.R
+import com.example.circolariitis.dataClasses.Filtro
 
 class FiltriView : RecyclerView.Adapter<FiltriView.ViewHolder>() {
 

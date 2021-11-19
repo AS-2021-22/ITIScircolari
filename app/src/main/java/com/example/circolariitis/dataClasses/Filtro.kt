@@ -1,4 +1,4 @@
-package com.example.circolariitis
+package com.example.circolariitis.dataClasses
 
 data class Filtro(
     var id:Int,

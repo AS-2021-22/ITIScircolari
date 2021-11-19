@@ -3,10 +3,10 @@ package com.example.circolariitis
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.circolariitis.dataClasses.Circolare
 import com.example.circolariitis.databinding.ActivityDisplayCircolareFullBinding
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken

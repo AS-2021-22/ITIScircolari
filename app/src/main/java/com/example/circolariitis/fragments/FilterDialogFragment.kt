@@ -1,4 +1,4 @@
-package com.example.circolariitis
+package com.example.circolariitis.fragments
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -16,6 +16,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.circolariitis.GLOBALS
+import com.example.circolariitis.R
+import com.example.circolariitis.dataClasses.Filtro
+import com.example.circolariitis.recycleView.FiltriView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
