@@ -13,6 +13,8 @@ dotenv.config()
 const app = express()
 const PORT = process.env.PORT || 3000
 
+console.log('connectiong to DB.....');
+
 const filters = ['quinte','quarte','terze','seconde','prime','biennio','triennio','studenti','professori','ATA','genitori']
 
 app.use(bodyParser.urlencoded({extended:true}))
