@@ -37,15 +37,15 @@ mongoose.connect(process.env.DB_URL || 'error')
     })
 
 io.on('connection',(socket) => {
-    console.log('user has connected')
+    //console.log('user has connected')
 
     socket.on('disconnect',() => {
-        console.log(`Socket ${socket.id} has disconnected`)
+        //console.log(`Socket ${socket.id} has disconnected`)
     })
 })
 
 app.get('/',(req:any,res:any) => {
-    io.emit('update','testo a caso')
+    io.emit('update',{id:0,title:"Circolare test",tags:["primo","secondo"]})
     res.send('hello i\'m the server')
 })
 

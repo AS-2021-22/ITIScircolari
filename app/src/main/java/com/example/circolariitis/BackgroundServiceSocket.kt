@@ -6,10 +6,19 @@ import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
 import android.widget.Toast
+import com.google.gson.Gson
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
 
 class BackgroundServiceSocket : Service() {
+
+    val gson = Gson()
+
+    private data class DataUpdate(
+        var id: Number = -1,
+        var title: String = "No title",
+        var tags: List<String> = emptyList()
+    )
 
     private lateinit var mSocket: Socket
 
@@ -20,9 +29,12 @@ class BackgroundServiceSocket : Service() {
 
         mSocket = SocketHandler.getSocket()
 
-        mSocket.on("update",Emitter.Listener {
+        mSocket.on("update",Emitter.Listener { args ->
+
+            val data: DataUpdate = gson.fromJson(args[0].toString(), DataUpdate::class.java)
+
             Handler(Looper.getMainLooper()).post {
-                Toast.makeText(this, it.toString(), Toast.LENGTH_LONG).show()
+                Toast.makeText(this, data.title, Toast.LENGTH_LONG).show()
             }
         })
     }
