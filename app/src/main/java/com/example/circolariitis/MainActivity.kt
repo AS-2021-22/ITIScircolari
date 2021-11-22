@@ -37,9 +37,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var sharedPreferences: SharedPreferences
     private val gson = Gson()
     private var listCircolariFromServer: List<CircolarePreview> = emptyList()
-    private val channel_name = "nuova circolare"
-    private val channel_description = "è stata aggunta una nuova circolare per te su ITIScircolari"
-    private val CHANNEL_ID = "123"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,27 +78,7 @@ class MainActivity : AppCompatActivity() {
         }
         filters = listFiltersFromMemory
 
-        createNotificationChannel()
 
-        val intent = Intent(this, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        }
-        val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
-        val notificationId = 0
-
-        var builder = NotificationCompat.Builder(this, CHANNEL_ID)
-            .setSmallIcon(R.mipmap.itislogo)
-            .setContentTitle("This is the notification")
-            .setContentText("nuova circolare inserita sul sito, apri l'applicazione per visualizzarla")
-            /*.setStyle(NotificationCompat.BigTextStyle()
-                .bigText("Much longer text that cannot fit one line..."))*/
-            .setContentIntent(pendingIntent)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-
-        with(NotificationManagerCompat.from(this)) {
-            // notificationId is a unique int for each notification that you must define
-            notify(notificationId, builder.build())
-        }
 
 
         circolariPOST()
@@ -163,22 +140,5 @@ class MainActivity : AppCompatActivity() {
     private fun openFilterDialog(){
         val dialog = FilterDialogFragment()
         dialog.show(supportFragmentManager, "Filter Dialog")
-    }
-
-    private fun createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = channel_name
-            val descriptionText = channel_description
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
-                description = descriptionText
-            }
-            // Register the channel with the system
-            val notificationManager: NotificationManager =
-                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
-        }
     }
 }
