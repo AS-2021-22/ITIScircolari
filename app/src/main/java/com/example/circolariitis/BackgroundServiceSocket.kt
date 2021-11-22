@@ -84,7 +84,7 @@ class BackgroundServiceSocket : Service() {
 
     private fun createNotification(title:String,text:String, intent: PendingIntent?): Notification {
         return NotificationCompat.Builder(this, CHANNEL_ID)
-            .setSmallIcon(R.mipmap.ic_itis)
+            .setSmallIcon(R.drawable.ic_school_notification)
             .setContentTitle(title)
             .setContentText(text)
             .setContentIntent(intent)
