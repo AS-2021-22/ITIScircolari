@@ -3,6 +3,7 @@ package com.example.circolariitis
 import android.app.*
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Build
 import android.os.Handler
 import android.os.IBinder
@@ -11,8 +12,10 @@ import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
+import java.util.*
 
 class BackgroundServiceSocket : Service() {
 
@@ -22,6 +25,8 @@ class BackgroundServiceSocket : Service() {
     private lateinit var pendingIntent: PendingIntent
     private var notificationId: Int = 0
     private val gson = Gson()
+    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var filters: List<String>
 
     private data class DataUpdate(
         var id: Number = -1,
@@ -33,6 +38,16 @@ class BackgroundServiceSocket : Service() {
 
     override fun onCreate() {
         super.onCreate()
+
+        sharedPreferences = this.getSharedPreferences("filters", Context.MODE_PRIVATE)
+        val stringFilterList = sharedPreferences.getString("filters","[]")
+        filters = try{
+            val typeListFilterFromString = object : TypeToken<List<String>>() {}.type
+            (gson.fromJson(stringFilterList,typeListFilterFromString) as List<String>)
+        }catch(e: Exception){
+            Collections.emptyList()
+        }
+
         SocketHandler.setSocket()
         SocketHandler.establishConnection()
         mSocket = SocketHandler.getSocket()
@@ -40,12 +55,18 @@ class BackgroundServiceSocket : Service() {
 
             val data: DataUpdate = gson.fromJson(args[0].toString(), DataUpdate::class.java)
 
-            val notification = createNotification("Nuova circolare N: ${data.id}",data.title, pendingIntent)
+/*            Handler(Looper.getMainLooper()).post {
+                Toast.makeText(this,data.tags.toString(),Toast.LENGTH_LONG).show()
+            }*/
 
-            with(NotificationManagerCompat.from(this)) {
-                // notificationId is a unique int for each notification that you must define
-                notify(notificationId, notification)
-                notificationId ++
+            if(data.tags.contains("tutti") || hasSomethingInCommon(data.tags,filters)){
+                val notification = createNotification("Nuova circolare N: ${data.id}",data.title, pendingIntent)
+
+                with(NotificationManagerCompat.from(this)) {
+                    // notificationId is a unique int for each notification that you must define
+                    notify(notificationId, notification)
+                    notificationId ++
+                }
             }
         })
 
@@ -55,6 +76,11 @@ class BackgroundServiceSocket : Service() {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
         pendingIntent = PendingIntent.getActivity(this, 0, intentNotification, 0)
+    }
+
+    private fun hasSomethingInCommon(l1: List<String>, l2: List<String>): Boolean {
+        for(a in l1) if (l2.contains(a)) return true
+        return false
     }
 
     override fun onBind(intent: Intent): IBinder? {

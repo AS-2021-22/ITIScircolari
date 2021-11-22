@@ -45,7 +45,7 @@ io.on('connection',(socket) => {
 })
 
 app.get('/',(req:any,res:any) => {
-    io.emit('update',{id:0,title:"Circolare test",tags:["primo","secondo"]})
+    io.emit('update',{id:0,title:"Circolare test",tags:["quinte","tutti"]})
     res.send('hello i\'m the server')
 })
 
