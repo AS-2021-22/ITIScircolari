@@ -8,9 +8,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/itislogo"
+        android:icon="@mipmap/ic_itis"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/itislogo"
+        android:roundIcon="@mipmap/ic_itis"
         android:supportsRtl="true"
         android:theme="@style/Theme.CircolariITIS"
         android:usesCleartextTraffic="true">
@@ -28,14 +28,9 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <service
-            android:name=".BackgroundService"
-            android:exported="false" />
     </application>
 
 </manifest>
