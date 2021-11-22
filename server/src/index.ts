@@ -38,6 +38,10 @@ mongoose.connect(process.env.DB_URL || 'error')
 
 io.on('connection',(socket) => {
     console.log('user has connected')
+
+    socket.on('disconnect',() => {
+        console.log(`Socket ${socket.id} has disconnected`)
+    })
 })
 
 app.get('/',(req:any,res:any) => {

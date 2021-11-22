@@ -27,6 +27,9 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.util.*
 import kotlin.collections.HashMap
+import android.app.ActivityManager
+import android.widget.Toast
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -78,9 +81,10 @@ class MainActivity : AppCompatActivity() {
         }
         filters = listFiltersFromMemory
 
+        val intentService = Intent(this, BackgroundServiceSocket::class.java)
+        startService(intentService)
 
-        val serviceIntent = Intent(this, BackgroundServiceSocket::class.java)
-        startService(serviceIntent)
+        Toast.makeText(this,this.isServiceRunning(BackgroundServiceSocket::class.java).toString(),Toast.LENGTH_LONG).show()
 
         circolariPOST()
     }
@@ -141,5 +145,23 @@ class MainActivity : AppCompatActivity() {
     private fun openFilterDialog(){
         val dialog = FilterDialogFragment()
         dialog.show(supportFragmentManager, "Filter Dialog")
+    }
+
+    /*
+    @Suppress("DEPRECATION")
+    private fun isServiceRunning(): Boolean {
+        val manager = getSystemService(ACTIVITY_SERVICE) as ActivityManager
+        for (service in manager.getRunningServices(Int.MAX_VALUE)) {
+            if ("com.example.BackgroundServiceSocket" == service.service.className) {
+                return true
+            }
+        }
+        return false
+    }*/
+    @Suppress("DEPRECATION")
+    fun <T> Context.isServiceRunning(service: Class<T>): Boolean {
+        return (getSystemService(ACTIVITY_SERVICE) as ActivityManager)
+            .getRunningServices(Integer.MAX_VALUE)
+            .any { it -> it.service.className == service.name }
     }
 }
