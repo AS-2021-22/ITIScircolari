@@ -1,16 +1,20 @@
 import express from 'express'
-import {Circolare,Tag} from './types/circolare'
 import { Request,Response } from 'express'
 import bodyParser from 'body-parser'
 import  mongoose  from 'mongoose'
 import * as dotenv from 'dotenv'
 import cors from 'cors'
+import http from 'http'
+import { Server } from 'socket.io'
 
 import CircolareModel from './schema/circolare'
 
 dotenv.config()
 
 const app = express()
+const server = http.createServer(app)
+const io = new Server(server);
+
 const PORT = process.env.PORT || 3000
 
 console.log('connectiong to DB.....');
@@ -24,7 +28,7 @@ app.use(cors())
 mongoose.connect(process.env.DB_URL || 'error')
     .then(() => {
         console.log(`DB connected`)      
-        app.listen(PORT, () => console.log(`>Server listening on port ${PORT}`))
+        server.listen(PORT, () => console.log(`>Server listening on port ${PORT}`))
         //let newCircolare = new CircolareModel({id:2,title:"second",description:"bgfdbdf",tags:["quinte","seconde"]})
         //newCircolare.save().catch(e => console.log("impossible duplicate keys"))
     }).catch((e) => {
@@ -32,7 +36,12 @@ mongoose.connect(process.env.DB_URL || 'error')
         console.log(`DB not connected`)
     })
 
+io.on('connection',(socket) => {
+    console.log('user has connected')
+})
+
 app.get('/',(req:any,res:any) => {
+    io.emit('update','testo a caso')
     res.send('hello i\'m the server')
 })
 
