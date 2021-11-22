@@ -45,7 +45,7 @@ io.on('connection',(socket) => {
 })
 
 app.get('/',(req:any,res:any) => {
-    io.emit('update',{id:0,title:"Circolare test",tags:["quinte","tutti"]})
+    //io.emit('update',{id:0,title:"Circolare test",tags:["quinte","tutti"]})
     res.send('hello i\'m the server')
 })
 
@@ -55,18 +55,17 @@ app.get('/circolari',(req:any,res:any) => {
 
 app.get('/circolari/:id',(req:Request,res:Response) => {
     let n = parseInt(req.params.id)
-    //await CircolareModel.findOneAndDelete({id:n})
     CircolareModel.find({"id":n}).then(result => res.json(result[0])).catch(e => res.json([]))
 })
 
 app.post('/circolari/write', async (req:Request,res:Response) => {
     if(req.body.password === process.env.PW_WRITE){
-        const {titolo,descrizione,tags} = req.body
-        const n = await CircolareModel.countDocuments()
-        const newCircolare = new CircolareModel({id:n + 1,title:titolo,description:descrizione,tags:tags})
+        const {id,titolo,descrizione,tags} = req.body
+        if(!id || !titolo || !descrizione || !tags) res.status(500).json('missing fields')
+        const newCircolare = new CircolareModel({id,title:titolo,description:descrizione,tags})
         newCircolare.save().catch(err => console.log('element already exists'))
-        res.status(200).send('inviata')
-    } else res.status(500).send('wrong password')
+        res.status(200).json('inviata')
+    } else res.status(500).json('wrong password')
 })
 
 app.post('/circolari',(req:any,res:any) => {
