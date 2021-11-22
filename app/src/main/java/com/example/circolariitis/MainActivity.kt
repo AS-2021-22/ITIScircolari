@@ -79,7 +79,8 @@ class MainActivity : AppCompatActivity() {
         filters = listFiltersFromMemory
 
 
-
+        val serviceIntent = Intent(this, BackgroundServiceSocket::class.java)
+        startService(serviceIntent)
 
         circolariPOST()
     }
