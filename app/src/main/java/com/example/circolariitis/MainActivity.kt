@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity() {
         val intentService = Intent(this, BackgroundServiceSocket::class.java)
         startService(intentService)
 
-        Toast.makeText(this,this.isServiceRunning(BackgroundServiceSocket::class.java).toString(),Toast.LENGTH_LONG).show()
+        //Toast.makeText(this,this.isServiceRunning(BackgroundServiceSocket::class.java).toString(),Toast.LENGTH_LONG).show()
 
         circolariPOST()
     }
@@ -141,17 +141,6 @@ class MainActivity : AppCompatActivity() {
         dialog.show(supportFragmentManager, "Filter Dialog")
     }
 
-    /*
-    @Suppress("DEPRECATION")
-    private fun isServiceRunning(): Boolean {
-        val manager = getSystemService(ACTIVITY_SERVICE) as ActivityManager
-        for (service in manager.getRunningServices(Int.MAX_VALUE)) {
-            if ("com.example.BackgroundServiceSocket" == service.service.className) {
-                return true
-            }
-        }
-        return false
-    }*/
     @Suppress("DEPRECATION")
     fun <T> Context.isServiceRunning(service: Class<T>): Boolean {
         return (getSystemService(ACTIVITY_SERVICE) as ActivityManager)
