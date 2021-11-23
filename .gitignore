@@ -81,7 +81,6 @@ out/
 
 # Gradle files
 .gradle/
-build/
 
 # Local configuration file (sdk path, etc)
 local.properties
@@ -158,10 +157,8 @@ gen-external-apklibs
 # Log Files
 
 # Android Studio
-/*/build/
 /*/local.properties
 /*/out
-/*/*/build
 /*/*/production
 *.ipr
 *~
