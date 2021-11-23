@@ -1176,6 +1176,7 @@ color error_color_material_dark
 color error_color_material_light
 color foreground_material_dark
 color foreground_material_light
+color green
 color highlighted_text_material_dark
 color highlighted_text_material_light
 color material_blue_grey_800
@@ -1858,6 +1859,8 @@ drawable notification_template_icon_bg
 drawable notification_template_icon_low_bg
 drawable notification_tile_bg
 drawable notify_panel_notification_icon_bg
+drawable rounded_textview_green
+drawable rounded_textview_red
 drawable test_custom_background
 drawable test_level_drawable
 drawable tooltip_frame_dark
@@ -2052,8 +2055,8 @@ id fill
 id fill_horizontal
 id fill_vertical
 id filled
-id filter
 id filterMenu
+id filterTV
 id fitToContents
 id fixed
 id flip

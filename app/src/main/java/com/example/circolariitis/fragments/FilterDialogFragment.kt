@@ -8,9 +8,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Response
@@ -19,6 +23,7 @@ import com.android.volley.toolbox.Volley
 import com.example.circolariitis.GLOBALS
 import com.example.circolariitis.R
 import com.example.circolariitis.dataClasses.Filtro
+import com.example.circolariitis.recycleView.CircolariView
 import com.example.circolariitis.recycleView.FiltriView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -46,7 +51,16 @@ class FilterDialogFragment : DialogFragment() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycleViewFilter)
 
         adapter = FiltriView()
-        recyclerView.layoutManager = LinearLayoutManager(activity)
+
+        adapter.setOnItemClickListener(object: FiltriView.OnItemClickListener{
+            override fun onItemClick(position: Int) {
+                filtri[position].active = !filtri[position].active
+                adapter.setData(filtri.toList())
+                adapter.notifyItemChanged(position)
+                Toast.makeText(context, "${filtri[position].active}", Toast.LENGTH_LONG).show()
+            }
+        })
+        recyclerView.layoutManager = GridLayoutManager(activity,3)
         recyclerView.adapter = adapter
 
         loadFiltri()
@@ -72,9 +86,6 @@ class FilterDialogFragment : DialogFragment() {
             //val writtenString: String? = sharedPreferences.getString("test","writtenString") //if the string doesn't exists takes the second value
             dismiss() //close fragment
         }
-
-
-
     }
 
     private fun loadFiltri(){
