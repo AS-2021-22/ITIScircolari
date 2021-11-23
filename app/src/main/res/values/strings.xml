@@ -2,4 +2,7 @@
     <string name="app_name">CircolariITIS</string>
     <string name="loading">Loading...</string>
     <string name="save">Save</string>
+    <string name="show_suggestions">Show suggestions</string>
+    <string name="filtro">Filtro:</string>
+    <string name="filtri_attivi">filtri attivi:</string>
 </resources>

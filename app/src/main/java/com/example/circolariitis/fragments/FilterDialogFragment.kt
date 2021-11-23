@@ -6,16 +6,15 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
@@ -23,7 +22,6 @@ import com.android.volley.toolbox.Volley
 import com.example.circolariitis.GLOBALS
 import com.example.circolariitis.R
 import com.example.circolariitis.dataClasses.Filtro
-import com.example.circolariitis.recycleView.CircolariView
 import com.example.circolariitis.recycleView.FiltriView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -48,7 +46,7 @@ class FilterDialogFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         sharedPreferences = activity?.getSharedPreferences("filters", Context.MODE_PRIVATE) ?: return
 
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recycleViewFilter)
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recycleViewSuggestedFilter)
 
         adapter = FiltriView()
 
@@ -63,9 +61,20 @@ class FilterDialogFragment : DialogFragment() {
         recyclerView.layoutManager = GridLayoutManager(activity,3)
         recyclerView.adapter = adapter
 
-        loadFiltri()
+        //loadFiltri()
 
         val btn = view.findViewById<Button>(R.id.btnSave)
+        val btnSuggestion = view.findViewById<Button>(R.id.btnSuggestion)
+
+        btnSuggestion.setOnClickListener {
+            if(recyclerView.visibility == VISIBLE) recyclerView.visibility = GONE
+            else{
+                Toast.makeText(context, "filters?", Toast.LENGTH_SHORT).show()
+                loadFiltri()
+                recyclerView.visibility = VISIBLE
+            }
+        }
+
         btn.setOnClickListener {
             val result = mutableListOf<String>()
             filtri = adapter.getFiltri().toMutableList()
