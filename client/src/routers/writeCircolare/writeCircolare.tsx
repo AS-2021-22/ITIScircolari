@@ -1,6 +1,6 @@
 import { useState, useEffect,FunctionComponent, FormEvent } from 'react'
 import './../../style/css/writeCircolare.css'
-import 'dotenv/config'
+//import 'dotenv/config'
 
 interface WriteCircolareProps {
     
