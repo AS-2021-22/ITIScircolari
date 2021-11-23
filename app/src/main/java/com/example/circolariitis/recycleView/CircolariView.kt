@@ -36,7 +36,7 @@ class CircolariView : RecyclerView.Adapter<CircolariView.ViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.circolare_preview, parent, false)
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.circolare_preview_element, parent, false)
         return ViewHolder(v, mListener)
     }
 

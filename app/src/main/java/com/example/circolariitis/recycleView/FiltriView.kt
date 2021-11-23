@@ -1,11 +1,9 @@
 package com.example.circolariitis.recycleView
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
 import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.DiffUtil
@@ -43,7 +41,7 @@ class FiltriView : RecyclerView.Adapter<FiltriView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         context = parent.context
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.filter_element,parent,false)
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.filter_suggested_element,parent,false)
         return ViewHolder(v, mListener)
     }
 

@@ -39,7 +39,7 @@ class FilterDialogFragment : DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.filter_dialog,container,false)
+        return inflater.inflate(R.layout.filter_dialog_fragment,container,false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
