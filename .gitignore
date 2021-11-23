@@ -156,6 +156,9 @@ gen-external-apklibs
 
 # Log Files
 
+/build
+
+
 # Android Studio
 /*/local.properties
 /*/out
