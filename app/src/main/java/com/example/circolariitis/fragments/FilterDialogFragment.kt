@@ -22,7 +22,7 @@ import com.android.volley.toolbox.Volley
 import com.example.circolariitis.GLOBALS
 import com.example.circolariitis.R
 import com.example.circolariitis.dataClasses.Filtro
-import com.example.circolariitis.recycleView.FiltriView
+import com.example.circolariitis.recycleView.FiltriSuggestionView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -32,7 +32,7 @@ class FilterDialogFragment : DialogFragment() {
     private lateinit var sharedPreferences: SharedPreferences
     private var filtri: MutableList<Filtro> = mutableListOf()
 
-    private lateinit var adapter: FiltriView
+    private lateinit var adapter: FiltriSuggestionView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,9 +48,9 @@ class FilterDialogFragment : DialogFragment() {
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycleViewSuggestedFilter)
 
-        adapter = FiltriView()
+        adapter = FiltriSuggestionView()
 
-        adapter.setOnItemClickListener(object: FiltriView.OnItemClickListener{
+        adapter.setOnItemClickListener(object: FiltriSuggestionView.OnItemClickListener{
             override fun onItemClick(position: Int) {
                 filtri[position].active = !filtri[position].active
                 adapter.setData(filtri.toList())

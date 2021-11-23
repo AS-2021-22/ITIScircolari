@@ -11,7 +11,7 @@ import com.example.circolariitis.R
 import com.example.circolariitis.dataClasses.CircolarePreview
 import java.util.*
 
-class CircolariView : RecyclerView.Adapter<CircolariView.ViewHolder>() {
+class CircolariPreviewView : RecyclerView.Adapter<CircolariPreviewView.ViewHolder>() {
 
     private lateinit var mListener : OnItemClickListener
 
@@ -53,6 +53,6 @@ class CircolariView : RecyclerView.Adapter<CircolariView.ViewHolder>() {
         val diffutil = CircolariDiffutil(circolari, newList)
         val diffResult = DiffUtil.calculateDiff(diffutil)
         circolari = newList
-        diffResult.dispatchUpdatesTo(this@CircolariView)
+        diffResult.dispatchUpdatesTo(this@CircolariPreviewView)
     }
 }

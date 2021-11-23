@@ -12,7 +12,7 @@ import com.example.circolariitis.diffUtils.FiltriDiffutil
 import com.example.circolariitis.R
 import com.example.circolariitis.dataClasses.Filtro
 
-class FiltriView : RecyclerView.Adapter<FiltriView.ViewHolder>() {
+class FiltriSuggestionView : RecyclerView.Adapter<FiltriSuggestionView.ViewHolder>() {
     private lateinit var context: Context
     private var filtri = emptyList<Filtro>()
 
@@ -30,7 +30,7 @@ class FiltriView : RecyclerView.Adapter<FiltriView.ViewHolder>() {
         return filtri
     }
 
-    inner class ViewHolder(itemView: View, listener: FiltriView.OnItemClickListener) : RecyclerView.ViewHolder(itemView){
+    inner class ViewHolder(itemView: View, listener: FiltriSuggestionView.OnItemClickListener) : RecyclerView.ViewHolder(itemView){
         val filtro = itemView.findViewById<TextView>(R.id.filterTV)
         init{
             itemView.setOnClickListener{

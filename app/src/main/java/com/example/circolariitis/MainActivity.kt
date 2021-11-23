@@ -16,7 +16,7 @@ import com.android.volley.toolbox.Volley
 import com.example.circolariitis.dataClasses.CircolarePreview
 import com.example.circolariitis.databinding.ActivityMainBinding
 import com.example.circolariitis.fragments.FilterDialogFragment
-import com.example.circolariitis.recycleView.CircolariView
+import com.example.circolariitis.recycleView.CircolariPreviewView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.util.*
@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var activityViewElements : ActivityMainBinding // V -> view
     private var layoutManager: RecyclerView.LayoutManager? = null
-    private lateinit var adapter: CircolariView
+    private lateinit var adapter: CircolariPreviewView
     private var filters : List<String> = Collections.emptyList()
     private lateinit var sharedPreferences: SharedPreferences
     private val gson = Gson()
@@ -42,11 +42,11 @@ class MainActivity : AppCompatActivity() {
 
         //setup the recycle view
         layoutManager = LinearLayoutManager(this@MainActivity)
-        adapter = CircolariView()
+        adapter = CircolariPreviewView()
         activityViewElements.circolariView.layoutManager = layoutManager
         activityViewElements.circolariView.adapter = adapter
 
-        adapter.setOnItemClickListener(object: CircolariView.OnItemClickListener{
+        adapter.setOnItemClickListener(object: CircolariPreviewView.OnItemClickListener{
             override fun onItemClick(position: Int) {
                 showCircolareFull(listCircolariFromServer[position].id)
             }
