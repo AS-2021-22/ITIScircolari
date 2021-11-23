@@ -6,10 +6,10 @@ function App() {
   return (
     <div className="App">
       <Link to={`/writeCircolare`}>
-        <a> scrivi la circolare </a>
+         scrivi la circolare
       </Link><br/>
       <Link to={`/circolari`}>
-        <a> visualizza le circolari </a>
+         visualizza le circolari
       </Link>
     </div>
   );

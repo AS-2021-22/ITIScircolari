@@ -1,5 +1,6 @@
 import { useState, useEffect,FunctionComponent, FormEvent } from 'react'
 import './../../style/css/writeCircolare.css'
+import 'dotenv/config'
 
 interface WriteCircolareProps {
     
@@ -7,8 +8,7 @@ interface WriteCircolareProps {
  
 const WriteCircolare: FunctionComponent<WriteCircolareProps> = () => {
 
-    let [tags,setTags] = useState<string[]>(["tutti"]) 
-
+    let [tags,setTags] = useState<string[]>(["tutti"])
     const requireFilters = (sf: Function) => {
         fetch((process.env.REACT_APP_URL as string) + 'filters',{
             method: 'POST',
@@ -34,8 +34,6 @@ const WriteCircolare: FunctionComponent<WriteCircolareProps> = () => {
             } else if(value === true) l.push(key)
         }
         obj['tags'] = l
-        //console.log(obj)
-        
         fetch((process.env.REACT_APP_URL as string) + 'circolari/write',{
             method: 'POST',
             mode: 'cors',
@@ -50,7 +48,8 @@ const WriteCircolare: FunctionComponent<WriteCircolareProps> = () => {
     }
 
     return (
-        <form onSubmit={handleSubmit} className='formWrite'>
+        <form onSubmit={handleSubmit} className='formWrite' id='form'>
+            <input name='id' type="number" placeholder='id:' className='inputID' required/><br/>
             <input name='titolo' type="text" placeholder='titolo:' className='inputTitolo' required/><br/>
             <textarea name='descrizione' placeholder='descrizione:' className='inputDescrizione' required/><br/>
             <input name='password' type="text" placeholder='password:' className='inputPassword' required/><br/>

@@ -59,6 +59,7 @@ app.get('/circolari/:id',(req:Request,res:Response) => {
 })
 
 app.post('/circolari/write', async (req:Request,res:Response) => {
+    console.log(req.body)
     if(req.body.password === process.env.PW_WRITE){
         const {id,titolo,descrizione,tags} = req.body
         if(!id || !titolo || !descrizione || !tags) res.status(500).json('missing fields')
