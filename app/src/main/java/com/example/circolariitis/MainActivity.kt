@@ -22,7 +22,7 @@ import com.google.gson.reflect.TypeToken
 import java.util.*
 import kotlin.collections.HashMap
 import android.app.ActivityManager
-import android.widget.Toast
+import com.example.circolariitis.background.BackgroundServiceSocket
 
 
 class MainActivity : AppCompatActivity() {

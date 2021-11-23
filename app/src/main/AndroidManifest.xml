@@ -15,7 +15,7 @@
         android:theme="@style/Theme.CircolariITIS"
         android:usesCleartextTraffic="true">
         <service
-            android:name=".BackgroundServiceSocket"
+            android:name=".background.BackgroundServiceSocket"
             android:enabled="true"
             android:exported="true"/>
 

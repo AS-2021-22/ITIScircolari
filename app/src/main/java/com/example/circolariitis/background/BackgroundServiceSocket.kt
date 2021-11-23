@@ -1,16 +1,15 @@
-package com.example.circolariitis
+package com.example.circolariitis.background
 
 import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
-import android.os.Handler
 import android.os.IBinder
-import android.os.Looper
-import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.example.circolariitis.MainActivity
+import com.example.circolariitis.R
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import io.socket.client.Socket

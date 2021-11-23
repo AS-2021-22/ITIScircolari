@@ -36,80 +36,79 @@
 22-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:13:9-44
 23        android:supportsRtl="true"
 23-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:14:9-35
-24        android:testOnly="true"
-25        android:theme="@style/Theme.CircolariITIS"
-25-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:15:9-51
-26        android:usesCleartextTraffic="true" >
-26-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:16:9-44
-27        <service
-27-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:17:9-20:38
-28            android:name="com.example.circolariitis.BackgroundServiceSocket"
-28-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:18:13-52
-29            android:enabled="true"
-29-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:19:13-35
-30            android:exported="true" />
-30-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:20:13-36
-31
-32        <activity
-32-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:22:9-25:58
-33            android:name="com.example.circolariitis.DisplayCircolareFull"
-33-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:23:13-49
-34            android:exported="false"
-34-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:24:13-37
-35            android:parentActivityName="com.example.circolariitis.MainActivity" />
-35-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:25:13-55
-36        <activity
-36-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:26:9-33:20
-37            android:name="com.example.circolariitis.MainActivity"
-37-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:27:13-41
-38            android:exported="true" >
-38-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:28:13-36
-39            <intent-filter>
-39-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:29:13-32:29
-40                <action android:name="android.intent.action.MAIN" />
-40-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:30:17-69
-40-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:30:25-66
-41
-42                <category android:name="android.intent.category.LAUNCHER" />
-42-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:31:17-77
-42-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:31:27-74
-43            </intent-filter>
-44        </activity>
-45
-46        <uses-library
-46-->[androidx.window:window:1.0.0-beta02] C:\Users\jocar\.gradle\caches\transforms-3\4c5dc528e3a8829bc990b9f118a647c6\transformed\jetified-window-1.0.0-beta02\AndroidManifest.xml:25:9-27:40
-47            android:name="androidx.window.extensions"
-47-->[androidx.window:window:1.0.0-beta02] C:\Users\jocar\.gradle\caches\transforms-3\4c5dc528e3a8829bc990b9f118a647c6\transformed\jetified-window-1.0.0-beta02\AndroidManifest.xml:26:13-54
-48            android:required="false" />
-48-->[androidx.window:window:1.0.0-beta02] C:\Users\jocar\.gradle\caches\transforms-3\4c5dc528e3a8829bc990b9f118a647c6\transformed\jetified-window-1.0.0-beta02\AndroidManifest.xml:27:13-37
-49        <uses-library
-49-->[androidx.window:window:1.0.0-beta02] C:\Users\jocar\.gradle\caches\transforms-3\4c5dc528e3a8829bc990b9f118a647c6\transformed\jetified-window-1.0.0-beta02\AndroidManifest.xml:28:9-30:40
-50            android:name="androidx.window.sidecar"
-50-->[androidx.window:window:1.0.0-beta02] C:\Users\jocar\.gradle\caches\transforms-3\4c5dc528e3a8829bc990b9f118a647c6\transformed\jetified-window-1.0.0-beta02\AndroidManifest.xml:29:13-51
-51            android:required="false" />
-51-->[androidx.window:window:1.0.0-beta02] C:\Users\jocar\.gradle\caches\transforms-3\4c5dc528e3a8829bc990b9f118a647c6\transformed\jetified-window-1.0.0-beta02\AndroidManifest.xml:30:13-37
-52
-53        <provider
-53-->[androidx.emoji2:emoji2:1.0.0] C:\Users\jocar\.gradle\caches\transforms-3\0c8b21db498ae6b6ba22706b7f0dbd1b\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:26:9-34:20
-54            android:name="androidx.startup.InitializationProvider"
-54-->[androidx.emoji2:emoji2:1.0.0] C:\Users\jocar\.gradle\caches\transforms-3\0c8b21db498ae6b6ba22706b7f0dbd1b\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:27:13-67
-55            android:authorities="com.example.circolariitis.androidx-startup"
-55-->[androidx.emoji2:emoji2:1.0.0] C:\Users\jocar\.gradle\caches\transforms-3\0c8b21db498ae6b6ba22706b7f0dbd1b\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:28:13-68
-56            android:exported="false" >
-56-->[androidx.emoji2:emoji2:1.0.0] C:\Users\jocar\.gradle\caches\transforms-3\0c8b21db498ae6b6ba22706b7f0dbd1b\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:29:13-37
-57            <meta-data
-57-->[androidx.emoji2:emoji2:1.0.0] C:\Users\jocar\.gradle\caches\transforms-3\0c8b21db498ae6b6ba22706b7f0dbd1b\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:31:13-33:52
-58                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-58-->[androidx.emoji2:emoji2:1.0.0] C:\Users\jocar\.gradle\caches\transforms-3\0c8b21db498ae6b6ba22706b7f0dbd1b\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:32:17-75
-59                android:value="androidx.startup" />
-59-->[androidx.emoji2:emoji2:1.0.0] C:\Users\jocar\.gradle\caches\transforms-3\0c8b21db498ae6b6ba22706b7f0dbd1b\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:33:17-49
-60            <meta-data
-60-->[androidx.lifecycle:lifecycle-process:2.4.0] C:\Users\jocar\.gradle\caches\transforms-3\a889c36c21c1e2bc116f811fb6c47330\transformed\jetified-lifecycle-process-2.4.0\AndroidManifest.xml:31:13-33:52
-61                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-61-->[androidx.lifecycle:lifecycle-process:2.4.0] C:\Users\jocar\.gradle\caches\transforms-3\a889c36c21c1e2bc116f811fb6c47330\transformed\jetified-lifecycle-process-2.4.0\AndroidManifest.xml:32:17-78
-62                android:value="androidx.startup" />
-62-->[androidx.lifecycle:lifecycle-process:2.4.0] C:\Users\jocar\.gradle\caches\transforms-3\a889c36c21c1e2bc116f811fb6c47330\transformed\jetified-lifecycle-process-2.4.0\AndroidManifest.xml:33:17-49
-63        </provider>
-64    </application>
-65
-66</manifest>
+24        android:theme="@style/Theme.CircolariITIS"
+24-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:15:9-51
+25        android:usesCleartextTraffic="true" >
+25-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:16:9-44
+26        <service
+26-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:17:9-20:38
+27            android:name="com.example.circolariitis.background.BackgroundServiceSocket"
+27-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:18:13-63
+28            android:enabled="true"
+28-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:19:13-35
+29            android:exported="true" />
+29-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:20:13-36
+30
+31        <activity
+31-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:22:9-25:58
+32            android:name="com.example.circolariitis.DisplayCircolareFull"
+32-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:23:13-49
+33            android:exported="false"
+33-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:24:13-37
+34            android:parentActivityName="com.example.circolariitis.MainActivity" />
+34-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:25:13-55
+35        <activity
+35-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:26:9-33:20
+36            android:name="com.example.circolariitis.MainActivity"
+36-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:27:13-41
+37            android:exported="true" >
+37-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:28:13-36
+38            <intent-filter>
+38-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:29:13-32:29
+39                <action android:name="android.intent.action.MAIN" />
+39-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:30:17-69
+39-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:30:25-66
+40
+41                <category android:name="android.intent.category.LAUNCHER" />
+41-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:31:17-77
+41-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:31:27-74
+42            </intent-filter>
+43        </activity>
+44
+45        <uses-library
+45-->[androidx.window:window:1.0.0-beta02] C:\Users\jocar\.gradle\caches\transforms-3\4c5dc528e3a8829bc990b9f118a647c6\transformed\jetified-window-1.0.0-beta02\AndroidManifest.xml:25:9-27:40
+46            android:name="androidx.window.extensions"
+46-->[androidx.window:window:1.0.0-beta02] C:\Users\jocar\.gradle\caches\transforms-3\4c5dc528e3a8829bc990b9f118a647c6\transformed\jetified-window-1.0.0-beta02\AndroidManifest.xml:26:13-54
+47            android:required="false" />
+47-->[androidx.window:window:1.0.0-beta02] C:\Users\jocar\.gradle\caches\transforms-3\4c5dc528e3a8829bc990b9f118a647c6\transformed\jetified-window-1.0.0-beta02\AndroidManifest.xml:27:13-37
+48        <uses-library
+48-->[androidx.window:window:1.0.0-beta02] C:\Users\jocar\.gradle\caches\transforms-3\4c5dc528e3a8829bc990b9f118a647c6\transformed\jetified-window-1.0.0-beta02\AndroidManifest.xml:28:9-30:40
+49            android:name="androidx.window.sidecar"
+49-->[androidx.window:window:1.0.0-beta02] C:\Users\jocar\.gradle\caches\transforms-3\4c5dc528e3a8829bc990b9f118a647c6\transformed\jetified-window-1.0.0-beta02\AndroidManifest.xml:29:13-51
+50            android:required="false" />
+50-->[androidx.window:window:1.0.0-beta02] C:\Users\jocar\.gradle\caches\transforms-3\4c5dc528e3a8829bc990b9f118a647c6\transformed\jetified-window-1.0.0-beta02\AndroidManifest.xml:30:13-37
+51
+52        <provider
+52-->[androidx.emoji2:emoji2:1.0.0] C:\Users\jocar\.gradle\caches\transforms-3\0c8b21db498ae6b6ba22706b7f0dbd1b\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:26:9-34:20
+53            android:name="androidx.startup.InitializationProvider"
+53-->[androidx.emoji2:emoji2:1.0.0] C:\Users\jocar\.gradle\caches\transforms-3\0c8b21db498ae6b6ba22706b7f0dbd1b\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:27:13-67
+54            android:authorities="com.example.circolariitis.androidx-startup"
+54-->[androidx.emoji2:emoji2:1.0.0] C:\Users\jocar\.gradle\caches\transforms-3\0c8b21db498ae6b6ba22706b7f0dbd1b\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:28:13-68
+55            android:exported="false" >
+55-->[androidx.emoji2:emoji2:1.0.0] C:\Users\jocar\.gradle\caches\transforms-3\0c8b21db498ae6b6ba22706b7f0dbd1b\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:29:13-37
+56            <meta-data
+56-->[androidx.emoji2:emoji2:1.0.0] C:\Users\jocar\.gradle\caches\transforms-3\0c8b21db498ae6b6ba22706b7f0dbd1b\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:31:13-33:52
+57                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+57-->[androidx.emoji2:emoji2:1.0.0] C:\Users\jocar\.gradle\caches\transforms-3\0c8b21db498ae6b6ba22706b7f0dbd1b\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:32:17-75
+58                android:value="androidx.startup" />
+58-->[androidx.emoji2:emoji2:1.0.0] C:\Users\jocar\.gradle\caches\transforms-3\0c8b21db498ae6b6ba22706b7f0dbd1b\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:33:17-49
+59            <meta-data
+59-->[androidx.lifecycle:lifecycle-process:2.4.0] C:\Users\jocar\.gradle\caches\transforms-3\a889c36c21c1e2bc116f811fb6c47330\transformed\jetified-lifecycle-process-2.4.0\AndroidManifest.xml:31:13-33:52
+60                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+60-->[androidx.lifecycle:lifecycle-process:2.4.0] C:\Users\jocar\.gradle\caches\transforms-3\a889c36c21c1e2bc116f811fb6c47330\transformed\jetified-lifecycle-process-2.4.0\AndroidManifest.xml:32:17-78
+61                android:value="androidx.startup" />
+61-->[androidx.lifecycle:lifecycle-process:2.4.0] C:\Users\jocar\.gradle\caches\transforms-3\a889c36c21c1e2bc116f811fb6c47330\transformed\jetified-lifecycle-process-2.4.0\AndroidManifest.xml:33:17-49
+62        </provider>
+63    </application>
+64
+65</manifest>

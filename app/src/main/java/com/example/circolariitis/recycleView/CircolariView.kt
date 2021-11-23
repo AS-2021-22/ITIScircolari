@@ -31,7 +31,7 @@ class CircolariView : RecyclerView.Adapter<CircolariView.ViewHolder>() {
         var id: TextView = itemView.findViewById(R.id.number)
         init{
             itemView.setOnClickListener{
-                listener.onItemClick(adapterPosition)
+                listener.onItemClick(absoluteAdapterPosition)
             }
         }
     }

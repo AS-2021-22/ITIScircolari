@@ -1,4 +1,4 @@
-package com.example.circolariitis
+package com.example.circolariitis.background
 
 import io.socket.client.IO
 import io.socket.client.Socket
