@@ -52,7 +52,7 @@ const WriteCircolare: FunctionComponent<WriteCircolareProps> = () => {
             <input name='id' type="number" placeholder='id:' className='inputID' required/><br/>
             <input name='titolo' type="text" placeholder='titolo:' className='inputTitolo' required/><br/>
             <textarea name='descrizione' placeholder='descrizione:' className='inputDescrizione' required/><br/>
-            <input name='password' type="text" placeholder='password:' className='inputPassword' required/><br/>
+            <input name='password' type="password" placeholder='password:' className='inputPassword' required/><br/>
             {tags?.map((t:string, index:number) => {
                 return(
                     <label className="switch" key={index}>
