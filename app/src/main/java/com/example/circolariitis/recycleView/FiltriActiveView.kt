@@ -22,7 +22,7 @@ class FiltriActiveView : RecyclerView.Adapter<FiltriActiveView.ViewHolder>()  {
 
         init{
             deleteIMG.setOnClickListener{
-                listener.onItemClick(absoluteAdapterPosition)
+                listener.onItemClick(activeFilters[absoluteAdapterPosition], absoluteAdapterPosition)
             }
         }
     }
@@ -41,7 +41,7 @@ class FiltriActiveView : RecyclerView.Adapter<FiltriActiveView.ViewHolder>()  {
     }
 
     interface OnItemClickListener{
-        fun onItemClick(position: Int)
+        fun onItemClick(activeFilter: Filtro, position: Int)
     }
 
     fun setOnItemClickListener(listener: OnItemClickListener){

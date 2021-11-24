@@ -78,8 +78,6 @@ class MainActivity : AppCompatActivity() {
         val intentService = Intent(this, BackgroundServiceSocket::class.java)
         startService(intentService)
 
-        //Toast.makeText(this,this.isServiceRunning(BackgroundServiceSocket::class.java).toString(),Toast.LENGTH_LONG).show()
-
         circolariPOST()
     }
 

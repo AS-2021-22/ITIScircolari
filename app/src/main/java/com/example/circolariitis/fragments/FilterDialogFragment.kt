@@ -48,11 +48,9 @@ class FilterDialogFragment : DialogFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         super.onViewCreated(view, savedInstanceState)
         sharedPreferences = activity?.getSharedPreferences("filters", Context.MODE_PRIVATE) ?: return
-
-
-        // recycle view SuggestedFilters
         val recyclerViewSuggestedFilters = view.findViewById<RecyclerView>(R.id.recycleViewSuggestedFilter)
         adapterSuggestedFilters = FiltriSuggestionView()
         adapterSuggestedFilters.setOnItemClickListener(object: FiltriSuggestionView.OnItemClickListener{
@@ -63,7 +61,7 @@ class FilterDialogFragment : DialogFragment() {
                     adapterActiveFilters.setData(filtriActive.toList())
                     adapterActiveFilters.notifyItemChanged(position)
                 } else {
-                    filtriActive.removeAt(position)
+                    filtriActive.remove(filtriSuggested[position])
                     adapterActiveFilters.setData(filtriActive.toList())
                     adapterActiveFilters.notifyItemChanged(position)
                 }
@@ -80,16 +78,21 @@ class FilterDialogFragment : DialogFragment() {
         val recyclerViewActiveFilters = view.findViewById<RecyclerView>(R.id.recycleViewActiveFilters)
         adapterActiveFilters = FiltriActiveView()
         adapterActiveFilters.setOnItemClickListener(object: FiltriActiveView.OnItemClickListener{
-            override fun onItemClick(position: Int) {
-                filtriActive.removeAt(position)
-                adapterActiveFilters.setData(filtriActive.toList())
-                adapterActiveFilters.notifyItemChanged(position)
+            override fun onItemClick(activeFilter: Filtro, position: Int) {
+                if(filtriActive.remove(activeFilter)){
+                    adapterActiveFilters.setData(filtriActive.toList())
+                    adapterActiveFilters.notifyItemRemoved(position)
+                    val n = filtriSuggested.indexOfFirst { it.id == activeFilter.id }
+                    filtriSuggested[n].active = false
+                    adapterSuggestedFilters.setData(filtriSuggested.toList())
+                    adapterSuggestedFilters.notifyItemChanged(n)
+                }
             }
         })
         recyclerViewActiveFilters.layoutManager = LinearLayoutManager(activity)
         recyclerViewActiveFilters.adapter = adapterActiveFilters
 
-
+        loadFiltri()
 
         val btnSave = view.findViewById<Button>(R.id.btnSave)
         val btnSuggestion = view.findViewById<Button>(R.id.btnSuggestion)
@@ -98,7 +101,6 @@ class FilterDialogFragment : DialogFragment() {
             if(recyclerViewSuggestedFilters.visibility == VISIBLE) recyclerViewSuggestedFilters.visibility = GONE
             else{
                 Toast.makeText(context, "filters?", Toast.LENGTH_SHORT).show()
-                loadFiltri()
                 recyclerViewSuggestedFilters.visibility = VISIBLE
             }
         }
@@ -139,6 +141,7 @@ class FilterDialogFragment : DialogFragment() {
         }catch(e: Exception){
             emptyList<String>().toMutableList()
         }
+        
         val stringReqP : StringRequest =
             object : StringRequest(
                 Method.POST,
@@ -159,11 +162,14 @@ class FilterDialogFragment : DialogFragment() {
                         }
                         if(indexFound != null) {
                             mlistFiltriFromMemory.remove(indexFound)
-                            filtriSuggested.add(Filtro(filtriSuggested.size,indexFound,true))
+                            val filterThatIsActive = Filtro(filtriSuggested.size,indexFound,true)
+                            filtriSuggested.add(filterThatIsActive)
+                            filtriActive.add(filterThatIsActive)
                         }
                         else filtriSuggested.add(Filtro(filtriSuggested.size,f,false))
                     }
                     adapterSuggestedFilters.setData(filtriSuggested)
+                    adapterActiveFilters.setData(filtriSuggested.filter{it.active})
                 },
                 Response.ErrorListener { err ->
                     Log.println(Log.ERROR,"error",err.toString())
