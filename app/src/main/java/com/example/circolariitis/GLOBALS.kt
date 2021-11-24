@@ -1,6 +1,6 @@
 package com.example.circolariitis
 
-object GLOBALS {
+object GLOBALS { //global object with variables
 
         private const val PROTOCOL : String = "https://"
         private const val SERVER_ADDRESS : String = "circolariitis.herokuapp.com" //"circolariitis.herokuapp.com"

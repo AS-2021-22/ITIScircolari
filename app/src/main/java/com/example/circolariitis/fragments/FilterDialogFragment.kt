@@ -1,8 +1,6 @@
 package com.example.circolariitis.fragments
 
-import android.app.Activity
 import android.content.Context
-import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
@@ -15,8 +13,6 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Toast
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
@@ -33,6 +29,7 @@ import com.example.circolariitis.recycleView.FiltriActiveView
 import com.example.circolariitis.recycleView.FiltriSuggestionView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import java.util.*
 
 class FilterDialogFragment : DialogFragment() {
 
@@ -133,7 +130,7 @@ class FilterDialogFragment : DialogFragment() {
             // send back to main activity
             val result = mutableListOf<String>()
             for(f: Filtro in filtriActive)result.add(f.text)
-            setFragmentResult("requestKey", bundleOf("bundleKey" to result))
+            setFragmentResult("requestKey", bundleOf("filtersAsList<String>" to result))
 
             //val filtriTrue: List<Filtro> = filtriSuggested.filter { it.active }
             var listOutput = "["
@@ -157,65 +154,47 @@ class FilterDialogFragment : DialogFragment() {
     }
 
     private fun loadFiltri(){
-        filtriPOST()
+        val ffm: List<String> = filtriFromMemory()
+        filtriPOST(ffm)
     }
 
-    private fun filtriPOST(){
-        val queueP = Volley.newRequestQueue(this.activity)
+    private fun filtriFromMemory() : List<String>{
+        val stringFilterList = sharedPreferences.getString("filters","[]") //read
+        val typeListFiltroFromString = object : TypeToken<List<String>>() {}.type //define type
+        val ffm : List<String> = gson.fromJson(stringFilterList,typeListFiltroFromString) //cast
+        ffm.forEach { filtriActive.add(Filtro(UUID.randomUUID().clockSequence(),it,true)) } //add filter
+        adapterActiveFilters.setData(filtriActive) // puts in the RV
+        return ffm
+    }
 
-        val stringFilterList = sharedPreferences.getString("filters","[]")
-        //Toast.makeText(activity,stringFilterList,Toast.LENGTH_LONG).show()
-
-        val mlistFiltriFromMemory: MutableList<String> = try{
-            val typeListFiltroFromString = object : TypeToken<List<String>>() {}.type
-            (gson.fromJson(stringFilterList,typeListFiltroFromString) as List<String>).toMutableList()
-        }catch(e: Exception){
-            emptyList<String>().toMutableList()
-        }
-
+    private fun filtriPOST(filtriFromMemory: List<String>){
+        val queueP = Volley.newRequestQueue(activity)
         val stringReqP : StringRequest =
             object : StringRequest(
                 Method.POST,
                 GLOBALS.POST_FILTRI,
                 Response.Listener { response ->
-                    // response
-                    val strResp = response.toString()
-                    val typeListFiltro = object : TypeToken<List<String>>() {}.type
-                    val listFiltriFromServer: List<String> = gson.fromJson(strResp,typeListFiltro)
+                    val strResp = response.toString() // get string response
+                    val typeListString = object : TypeToken<List<String>>() {}.type // define type
+                    val listFiltriFromServer: List<String> = gson.fromJson(strResp,typeListString) // cast the list of suggested filters
 
-                    for (f: String in listFiltriFromServer){
-
-                        val indexFound: String? = try{
-                            mlistFiltriFromMemory.filter{ it == f}[0]
-                        } catch(e:Exception){
-                            null
-                        }
-                        if(indexFound != null) {
-                            mlistFiltriFromMemory.remove(indexFound)
-                            val filterThatIsActive = Filtro(filtriSuggested.size,indexFound,true)
-                            filtriSuggested.add(filterThatIsActive)
-                            filtriActive.add(filterThatIsActive)
-                        }
-                        else filtriSuggested.add(Filtro(filtriSuggested.size,f,false))
+                    listFiltriFromServer.forEach {
+                        var isActive = false
+                        if(filtriFromMemory.contains(it)) isActive = true // if the filter was in the active
+                        filtriSuggested.add(Filtro(UUID.randomUUID().clockSequence(),it,isActive))
                     }
-                    for(f: String in mlistFiltriFromMemory){
-                        filtriActive.add(Filtro(filtriActive.size,f,true))
-                    }
-
-                    adapterSuggestedFilters.setData(filtriSuggested)
+                    adapterSuggestedFilters.setData(filtriSuggested.toList())
                     adapterActiveFilters.setData(filtriActive.toList())
                 },
                 Response.ErrorListener { err ->
                     Log.println(Log.ERROR,"error",err.toString())
-                    //adapter.setData(filtri)
                 }
             ){}
         queueP.add(stringReqP)
     }
 
-    fun hideKeyboard(){
+    private fun hideKeyboard(){
         val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view?.windowToken, 0)
     }
-
 }
