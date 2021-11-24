@@ -83,9 +83,11 @@ class FilterDialogFragment : DialogFragment() {
                     adapterActiveFilters.setData(filtriActive.toList())
                     adapterActiveFilters.notifyItemRemoved(position)
                     val n = filtriSuggested.indexOfFirst { it.id == activeFilter.id }
-                    filtriSuggested[n].active = false
-                    adapterSuggestedFilters.setData(filtriSuggested.toList())
-                    adapterSuggestedFilters.notifyItemChanged(n)
+                    if(n != -1){
+                        filtriSuggested[n].active = false
+                        adapterSuggestedFilters.setData(filtriSuggested.toList())
+                        adapterSuggestedFilters.notifyItemChanged(n)
+                    }
                 }
             }
         })
@@ -141,7 +143,7 @@ class FilterDialogFragment : DialogFragment() {
         }catch(e: Exception){
             emptyList<String>().toMutableList()
         }
-        
+
         val stringReqP : StringRequest =
             object : StringRequest(
                 Method.POST,

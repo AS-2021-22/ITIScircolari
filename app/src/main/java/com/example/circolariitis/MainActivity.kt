@@ -22,6 +22,7 @@ import com.google.gson.reflect.TypeToken
 import java.util.*
 import kotlin.collections.HashMap
 import android.app.ActivityManager
+import com.example.circolariitis.activities.DisplayCircolareFull
 import com.example.circolariitis.background.BackgroundServiceSocket
 
 

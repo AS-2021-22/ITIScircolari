@@ -1,4 +1,4 @@
-package com.example.circolariitis
+package com.example.circolariitis.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -6,6 +6,8 @@ import android.util.Log
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.circolariitis.GLOBALS
+import com.example.circolariitis.R
 import com.example.circolariitis.dataClasses.Circolare
 import com.example.circolariitis.databinding.ActivityDisplayCircolareFullBinding
 import com.google.gson.Gson

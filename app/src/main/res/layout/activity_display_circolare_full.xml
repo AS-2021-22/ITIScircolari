@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:padding="20sp"
         android:layout_height="match_parent"
-        tools:context=".DisplayCircolareFull">
+        tools:context=".activities.DisplayCircolareFull">
 
         <TextView
             android:id="@+id/cnumber"

@@ -20,7 +20,7 @@
             android:exported="true"/>
 
         <activity
-            android:name=".DisplayCircolareFull"
+            android:name=".activities.DisplayCircolareFull"
             android:exported="false"
             android:parentActivityName=".MainActivity" />
         <activity
