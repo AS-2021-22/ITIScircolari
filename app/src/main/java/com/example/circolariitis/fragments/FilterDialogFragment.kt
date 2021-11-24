@@ -15,6 +15,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
@@ -22,6 +23,7 @@ import com.android.volley.toolbox.Volley
 import com.example.circolariitis.GLOBALS
 import com.example.circolariitis.R
 import com.example.circolariitis.dataClasses.Filtro
+import com.example.circolariitis.recycleView.FiltriActiveView
 import com.example.circolariitis.recycleView.FiltriSuggestionView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -30,9 +32,12 @@ class FilterDialogFragment : DialogFragment() {
 
     private val gson: Gson = Gson()
     private lateinit var sharedPreferences: SharedPreferences
-    private var filtri: MutableList<Filtro> = mutableListOf()
 
-    private lateinit var adapter: FiltriSuggestionView
+    private var filtriSuggested: MutableList<Filtro> = mutableListOf()
+    private var filtriActive: MutableList<Filtro> = mutableListOf()
+
+    private lateinit var adapterSuggestedFilters: FiltriSuggestionView
+    private lateinit var adapterActiveFilters: FiltriActiveView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,42 +51,65 @@ class FilterDialogFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         sharedPreferences = activity?.getSharedPreferences("filters", Context.MODE_PRIVATE) ?: return
 
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recycleViewSuggestedFilter)
 
-        adapter = FiltriSuggestionView()
-
-        adapter.setOnItemClickListener(object: FiltriSuggestionView.OnItemClickListener{
+        // recycle view SuggestedFilters
+        val recyclerViewSuggestedFilters = view.findViewById<RecyclerView>(R.id.recycleViewSuggestedFilter)
+        adapterSuggestedFilters = FiltriSuggestionView()
+        adapterSuggestedFilters.setOnItemClickListener(object: FiltriSuggestionView.OnItemClickListener{
             override fun onItemClick(position: Int) {
-                filtri[position].active = !filtri[position].active
-                adapter.setData(filtri.toList())
-                adapter.notifyItemChanged(position)
-                Toast.makeText(context, "${filtri[position].active}", Toast.LENGTH_LONG).show()
+                filtriSuggested[position].active = !filtriSuggested[position].active
+                if(filtriSuggested[position].active){
+                    filtriActive.add(filtriSuggested[position])
+                    adapterActiveFilters.setData(filtriActive.toList())
+                    adapterActiveFilters.notifyItemChanged(position)
+                } else {
+                    filtriActive.removeAt(position)
+                    adapterActiveFilters.setData(filtriActive.toList())
+                    adapterActiveFilters.notifyItemChanged(position)
+                }
+                adapterSuggestedFilters.setData(filtriSuggested.toList())
+                adapterSuggestedFilters.notifyItemChanged(position)
+                Toast.makeText(context, "${filtriSuggested[position].active}", Toast.LENGTH_LONG).show()
             }
         })
-        recyclerView.layoutManager = GridLayoutManager(activity,3)
-        recyclerView.adapter = adapter
+        recyclerViewSuggestedFilters.layoutManager = GridLayoutManager(activity,3)
+        recyclerViewSuggestedFilters.adapter = adapterSuggestedFilters
 
-        //loadFiltri()
 
-        val btn = view.findViewById<Button>(R.id.btnSave)
+        // recycle view ActiveFilters
+        val recyclerViewActiveFilters = view.findViewById<RecyclerView>(R.id.recycleViewActiveFilters)
+        adapterActiveFilters = FiltriActiveView()
+        adapterActiveFilters.setOnItemClickListener(object: FiltriActiveView.OnItemClickListener{
+            override fun onItemClick(position: Int) {
+                filtriActive.removeAt(position)
+                adapterActiveFilters.setData(filtriActive.toList())
+                adapterActiveFilters.notifyItemChanged(position)
+            }
+        })
+        recyclerViewActiveFilters.layoutManager = LinearLayoutManager(activity)
+        recyclerViewActiveFilters.adapter = adapterActiveFilters
+
+
+
+        val btnSave = view.findViewById<Button>(R.id.btnSave)
         val btnSuggestion = view.findViewById<Button>(R.id.btnSuggestion)
 
         btnSuggestion.setOnClickListener {
-            if(recyclerView.visibility == VISIBLE) recyclerView.visibility = GONE
+            if(recyclerViewSuggestedFilters.visibility == VISIBLE) recyclerViewSuggestedFilters.visibility = GONE
             else{
                 Toast.makeText(context, "filters?", Toast.LENGTH_SHORT).show()
                 loadFiltri()
-                recyclerView.visibility = VISIBLE
+                recyclerViewSuggestedFilters.visibility = VISIBLE
             }
         }
 
-        btn.setOnClickListener {
+        btnSave.setOnClickListener {
             val result = mutableListOf<String>()
-            filtri = adapter.getFiltri().toMutableList()
-            filtri.forEach { f -> if(f.active)result.add(f.text)}
+            filtriSuggested = adapterSuggestedFilters.getFiltri().toMutableList()
+            filtriSuggested.forEach { f -> if(f.active)result.add(f.text)}
             setFragmentResult("requestKey", bundleOf("bundleKey" to result))
 
-            val filtriTrue: List<Filtro> = filtri.filter { it.active }
+            val filtriTrue: List<Filtro> = filtriSuggested.filter { it.active }
             var listOutput = "["
             filtriTrue.forEach { f -> listOutput += "${f.text}," }
             listOutput = listOutput.substring(0,listOutput.length - 1) //removing last ,
@@ -131,11 +159,11 @@ class FilterDialogFragment : DialogFragment() {
                         }
                         if(indexFound != null) {
                             mlistFiltriFromMemory.remove(indexFound)
-                            filtri.add(Filtro(filtri.size,indexFound,true))
+                            filtriSuggested.add(Filtro(filtriSuggested.size,indexFound,true))
                         }
-                        else filtri.add(Filtro(filtri.size,f,false))
+                        else filtriSuggested.add(Filtro(filtriSuggested.size,f,false))
                     }
-                    adapter.setData(filtri)
+                    adapterSuggestedFilters.setData(filtriSuggested)
                 },
                 Response.ErrorListener { err ->
                     Log.println(Log.ERROR,"error",err.toString())

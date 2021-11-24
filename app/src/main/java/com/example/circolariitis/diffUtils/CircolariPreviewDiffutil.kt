@@ -3,7 +3,7 @@ package com.example.circolariitis.diffUtils
 import androidx.recyclerview.widget.DiffUtil
 import com.example.circolariitis.dataClasses.CircolarePreview
 
-class CircolariDiffutil (
+class CircolariPreviewDiffutil (
     private val oldList: List<CircolarePreview>,
     private val newList: List<CircolarePreview>
 ) : DiffUtil.Callback() {

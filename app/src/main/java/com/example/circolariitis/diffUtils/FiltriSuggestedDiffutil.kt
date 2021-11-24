@@ -3,7 +3,7 @@ package com.example.circolariitis.diffUtils
 import androidx.recyclerview.widget.DiffUtil
 import com.example.circolariitis.dataClasses.Filtro
 
-class FiltriDiffutil(
+class FiltriSuggestedDiffutil(
     private val oldList: List<Filtro>,
     private val newList: List<Filtro>
 ) : DiffUtil.Callback() {

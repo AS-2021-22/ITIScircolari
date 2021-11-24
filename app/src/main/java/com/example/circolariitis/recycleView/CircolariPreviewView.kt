@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.circolariitis.diffUtils.CircolariDiffutil
+import com.example.circolariitis.diffUtils.CircolariPreviewDiffutil
 import com.example.circolariitis.R
 import com.example.circolariitis.dataClasses.CircolarePreview
 import java.util.*
@@ -50,7 +50,7 @@ class CircolariPreviewView : RecyclerView.Adapter<CircolariPreviewView.ViewHolde
     }
 
     fun setData(newList: List<CircolarePreview>) {
-        val diffutil = CircolariDiffutil(circolari, newList)
+        val diffutil = CircolariPreviewDiffutil(circolari, newList)
         val diffResult = DiffUtil.calculateDiff(diffutil)
         circolari = newList
         diffResult.dispatchUpdatesTo(this@CircolariPreviewView)

@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.circolariitis.diffUtils.FiltriDiffutil
+import com.example.circolariitis.diffUtils.FiltriSuggestedDiffutil
 import com.example.circolariitis.R
 import com.example.circolariitis.dataClasses.Filtro
 
@@ -49,12 +49,6 @@ class FiltriSuggestionView : RecyclerView.Adapter<FiltriSuggestionView.ViewHolde
         holder.filtro.text = filtri[position].text
         if(filtri[position].active) holder.filtro.background = AppCompatResources.getDrawable(context,R.drawable.rounded_textview_green)
         else holder.filtro.background = AppCompatResources.getDrawable(context,R.drawable.rounded_textview_red)
-
-        /*holder.filtro.isChecked = filtri[position].active
-
-        holder.filtro.setOnCheckedChangeListener { _, isChecked ->
-            filtri[position].active = isChecked
-        }*/
     }
 
     override fun getItemCount(): Int {
@@ -62,7 +56,7 @@ class FiltriSuggestionView : RecyclerView.Adapter<FiltriSuggestionView.ViewHolde
     }
 
     fun setData(newList: List<Filtro>){
-        val diffutil = FiltriDiffutil(filtri,newList)
+        val diffutil = FiltriSuggestedDiffutil(filtri,newList)
         val diffResult = DiffUtil.calculateDiff(diffutil)
         filtri = newList
         diffResult.dispatchUpdatesTo(this)
