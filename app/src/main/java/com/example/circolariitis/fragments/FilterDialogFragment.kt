@@ -1,16 +1,22 @@
 package com.example.circolariitis.fragments
 
+import android.app.Activity
 import android.content.Context
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
@@ -98,19 +104,31 @@ class FilterDialogFragment : DialogFragment() {
 
         val btnSave = view.findViewById<Button>(R.id.btnSave)
         val btnSuggestion = view.findViewById<Button>(R.id.btnSuggestion)
+        val editTextYourFilter = view.findViewById<EditText>(R.id.filtroET)
+        val addBtn = view.findViewById<Button>(R.id.addBtn)
+        
+        editTextYourFilter.setImeActionLabel("Save filter",KeyEvent.KEYCODE_ENTER)
+        addBtn.setOnClickListener {
+            val newFilterName: String = editTextYourFilter.text.toString()
+            filtriActive.add(Filtro(filtriActive.size,newFilterName,true))
+            adapterActiveFilters.setData(filtriActive.toList())
+            adapterActiveFilters.notifyItemInserted(filtriActive.size-1)
+
+            // hide soft keyboard programmatically
+            hideKeyboard()
+            // clear focus and hide cursor from edit text
+            editTextYourFilter.clearFocus()
+            editTextYourFilter.isCursorVisible = false
+        }
 
         btnSuggestion.setOnClickListener {
             if(recyclerViewSuggestedFilters.visibility == VISIBLE) recyclerViewSuggestedFilters.visibility = GONE
-            else{
-                Toast.makeText(context, "filters?", Toast.LENGTH_SHORT).show()
-                recyclerViewSuggestedFilters.visibility = VISIBLE
-            }
+            else recyclerViewSuggestedFilters.visibility = VISIBLE
         }
 
         btnSave.setOnClickListener {
             val result = mutableListOf<String>()
-            filtriSuggested = adapterSuggestedFilters.getFiltri().toMutableList()
-            filtriSuggested.forEach { f -> if(f.active)result.add(f.text)}
+            for(f: Filtro in filtriActive)result.add(f.text)
             setFragmentResult("requestKey", bundleOf("bundleKey" to result))
 
             val filtriTrue: List<Filtro> = filtriSuggested.filter { it.active }
@@ -158,7 +176,6 @@ class FilterDialogFragment : DialogFragment() {
 
                         val indexFound: String? = try{
                             mlistFiltriFromMemory.filter{ it == f}[0]
-                            //Log.d("list",mlistFiltriFromMemory.toString())
                         } catch(e:Exception){
                             null
                         }
@@ -170,6 +187,10 @@ class FilterDialogFragment : DialogFragment() {
                         }
                         else filtriSuggested.add(Filtro(filtriSuggested.size,f,false))
                     }
+                    for(f: String in mlistFiltriFromMemory){
+                        filtriActive.add(Filtro(filtriActive.size,f,true))
+                    }
+
                     adapterSuggestedFilters.setData(filtriSuggested)
                     adapterActiveFilters.setData(filtriSuggested.filter{it.active})
                 },
@@ -179,6 +200,11 @@ class FilterDialogFragment : DialogFragment() {
                 }
             ){}
         queueP.add(stringReqP)
+    }
+
+    fun hideKeyboard(){
+        val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 
 }

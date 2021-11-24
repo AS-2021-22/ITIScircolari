@@ -1937,6 +1937,7 @@ int id actions 0x7f080044
 int id activeFilterName 0x7f080045
 int id activity_chooser_view_content 0x7f080046
 int id add 0x7f080047
+int id addBtn 0x7f0801ee
 int id alertTitle 0x7f080048
 int id aligned 0x7f080049
 int id all 0x7f08004a
@@ -1967,6 +1968,7 @@ int id bounceEnd 0x7f080062
 int id bounceStart 0x7f080063
 int id btnSave 0x7f080064
 int id btnSuggestion 0x7f080065
+int id button 0x7f0801ef
 int id buttonPanel 0x7f080066
 int id cache_measures 0x7f080067
 int id callMeasure 0x7f080068

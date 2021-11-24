@@ -1938,6 +1938,7 @@ id actions
 id activeFilterName
 id activity_chooser_view_content
 id add
+id addBtn
 id alertTitle
 id aligned
 id all
@@ -1968,6 +1969,7 @@ id bounceEnd
 id bounceStart
 id btnSave
 id btnSuggestion
+id button
 id buttonPanel
 id cache_measures
 id callMeasure
