@@ -1,5 +1,6 @@
 package com.example.circolariitis.background
 
+import com.example.circolariitis.GLOBALS
 import io.socket.client.IO
 import io.socket.client.Socket
 import java.net.URISyntaxException
@@ -10,7 +11,7 @@ object SocketHandler {
     @Synchronized
     fun setSocket() {
         try {
-            mSocket = IO.socket("http://192.168.5.35:5000")
+            mSocket = IO.socket(GLOBALS.SERVER)
         } catch (e: URISyntaxException) {
 
         }

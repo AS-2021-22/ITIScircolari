@@ -46,6 +46,7 @@ io.on('connection',(socket) => {
 
 app.get('/',(req:any,res:any) => {
     //io.emit('update',{id:0,title:"Circolare test",tags:["quinte","tutti"]})
+    io.emit('update',{id:203,title:"this is a random title"})
     res.send('hello i\'m the server')
 })
 
@@ -59,13 +60,21 @@ app.get('/circolari/:id',(req:Request,res:Response) => {
 })
 
 app.post('/circolari/write', async (req:Request,res:Response) => {
-    console.log(req.body)
+    //console.log(req.body)
     if(req.body.password === process.env.PW_WRITE){
         const {id,titolo,descrizione,tags} = req.body
         if(!id || !titolo || !descrizione || !tags) res.status(500).json('missing fields')
         const newCircolare = new CircolareModel({id,title:titolo,description:descrizione,tags})
-        newCircolare.save().catch(err => console.log('element already exists'))
-        res.status(200).json('inviata')
+        newCircolare.save()
+            .then(() => {
+                io.emit('update',{id,title:titolo,tags})
+                res.status(200).json('inviata')
+            })
+            .catch(err => {
+                console.log('element already exists')
+                res.status(500).json('db error')
+            })
+        
     } else res.status(500).json('wrong password')
 })
 

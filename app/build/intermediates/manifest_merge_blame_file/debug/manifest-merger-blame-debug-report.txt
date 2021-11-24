@@ -52,8 +52,8 @@
 31
 32        <activity
 32-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:22:9-25:58
-33            android:name="com.example.circolariitis.DisplayCircolareFull"
-33-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:23:13-49
+33            android:name="com.example.circolariitis.activities.DisplayCircolareFull"
+33-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:23:13-60
 34            android:exported="false"
 34-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:24:13-37
 35            android:parentActivityName="com.example.circolariitis.MainActivity" />

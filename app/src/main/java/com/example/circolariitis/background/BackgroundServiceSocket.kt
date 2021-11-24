@@ -5,7 +5,10 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
+import android.os.Handler
 import android.os.IBinder
+import android.os.Looper
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.circolariitis.MainActivity
@@ -25,13 +28,17 @@ class BackgroundServiceSocket : Service() {
     private var notificationId: Int = 0
     private val gson = Gson()
     private lateinit var sharedPreferences: SharedPreferences
-    private lateinit var filters: List<String>
+    private lateinit var filters: MutableList<String>
 
     private data class DataUpdate(
         var id: Number = -1,
         var title: String = "No title",
         var tags: List<String> = emptyList()
-    )
+    ){
+        override fun toString(): String {
+            return "{id:$id,title:$title,tags:${tags.toString()}}"
+        }
+    }
 
     private lateinit var mSocket: Socket
 
@@ -41,11 +48,18 @@ class BackgroundServiceSocket : Service() {
         sharedPreferences = this.getSharedPreferences("filters", Context.MODE_PRIVATE)
         val stringFilterList = sharedPreferences.getString("filters","[]")
         filters = try{
-            val typeListFilterFromString = object : TypeToken<List<String>>() {}.type
-            (gson.fromJson(stringFilterList,typeListFilterFromString) as List<String>)
+            val typeListFilterFromString = object : TypeToken<MutableList<String>>() {}.type
+            (gson.fromJson(stringFilterList,typeListFilterFromString) as MutableList<String>)
         }catch(e: Exception){
             Collections.emptyList()
         }
+
+        createNotificationChannel()
+
+        val intentNotification = Intent(this, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        pendingIntent = PendingIntent.getActivity(this, 0, intentNotification, 0)
 
         SocketHandler.setSocket()
         SocketHandler.establishConnection()
@@ -53,8 +67,8 @@ class BackgroundServiceSocket : Service() {
         mSocket.on("update",Emitter.Listener { args ->
 
             val data: DataUpdate = gson.fromJson(args[0].toString(), DataUpdate::class.java)
-
-/*            Handler(Looper.getMainLooper()).post {
+            /*
+            Handler(Looper.getMainLooper()).post {
                 Toast.makeText(this,data.tags.toString(),Toast.LENGTH_LONG).show()
             }*/
 
@@ -69,12 +83,6 @@ class BackgroundServiceSocket : Service() {
             }
         })
 
-        createNotificationChannel()
-
-        val intentNotification = Intent(this, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        }
-        pendingIntent = PendingIntent.getActivity(this, 0, intentNotification, 0)
     }
 
     private fun hasSomethingInCommon(l1: List<String>, l2: List<String>): Boolean {
