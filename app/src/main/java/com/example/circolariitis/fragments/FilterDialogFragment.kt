@@ -65,15 +65,16 @@ class FilterDialogFragment : DialogFragment() {
                 if(filtriSuggested[position].active){
                     filtriActive.add(filtriSuggested[position])
                     adapterActiveFilters.setData(filtriActive.toList())
-                    adapterActiveFilters.notifyItemChanged(position)
+
                 } else {
                     filtriActive.remove(filtriSuggested[position])
                     adapterActiveFilters.setData(filtriActive.toList())
-                    adapterActiveFilters.notifyItemChanged(position)
+
                 }
                 adapterSuggestedFilters.setData(filtriSuggested.toList())
                 adapterSuggestedFilters.notifyItemChanged(position)
-                Toast.makeText(context, "${filtriSuggested[position].active}", Toast.LENGTH_LONG).show()
+
+                //Toast.makeText(context, "${filtriSuggested[position].active}", Toast.LENGTH_LONG).show()
             }
         })
         recyclerViewSuggestedFilters.layoutManager = GridLayoutManager(activity,3)
@@ -85,16 +86,16 @@ class FilterDialogFragment : DialogFragment() {
         adapterActiveFilters = FiltriActiveView()
         adapterActiveFilters.setOnItemClickListener(object: FiltriActiveView.OnItemClickListener{
             override fun onItemClick(activeFilter: Filtro, position: Int) {
-                if(filtriActive.remove(activeFilter)){
-                    adapterActiveFilters.setData(filtriActive.toList())
-                    adapterActiveFilters.notifyItemRemoved(position)
-                    val n = filtriSuggested.indexOfFirst { it.id == activeFilter.id }
-                    if(n != -1){
-                        filtriSuggested[n].active = false
-                        adapterSuggestedFilters.setData(filtriSuggested.toList())
-                        adapterSuggestedFilters.notifyItemChanged(n)
-                    }
+                filtriActive.remove(activeFilter)
+                adapterActiveFilters.setData(filtriActive.toList())
+
+                val n = filtriSuggested.indexOfFirst { it.id == activeFilter.id }
+                if(n != -1){
+                    filtriSuggested[n].active = false
+                    adapterSuggestedFilters.setData(filtriSuggested.toList())
+                    adapterSuggestedFilters.notifyItemChanged(n)
                 }
+
             }
         })
         recyclerViewActiveFilters.layoutManager = LinearLayoutManager(activity)
@@ -110,15 +111,16 @@ class FilterDialogFragment : DialogFragment() {
         editTextYourFilter.setImeActionLabel("Save filter",KeyEvent.KEYCODE_ENTER)
         addBtn.setOnClickListener {
             val newFilterName: String = editTextYourFilter.text.toString()
-            filtriActive.add(Filtro(filtriActive.size,newFilterName,true))
-            adapterActiveFilters.setData(filtriActive.toList())
-            adapterActiveFilters.notifyItemInserted(filtriActive.size-1)
+            if(filtriActive.filter{it.text == newFilterName} == emptyList<Filtro>()) {
+                filtriActive.add(Filtro(filtriActive.size,newFilterName,true))
+                adapterActiveFilters.setData(filtriActive.toList())
 
-            // hide soft keyboard programmatically
-            hideKeyboard()
-            // clear focus and hide cursor from edit text
-            editTextYourFilter.clearFocus()
-            editTextYourFilter.isCursorVisible = false
+                // hide soft keyboard programmatically
+                hideKeyboard()
+                // clear focus and hide cursor from edit text
+                editTextYourFilter.clearFocus()
+                editTextYourFilter.isCursorVisible = false
+            }
         }
 
         btnSuggestion.setOnClickListener {
@@ -127,15 +129,22 @@ class FilterDialogFragment : DialogFragment() {
         }
 
         btnSave.setOnClickListener {
+
+            // send back to main activity
             val result = mutableListOf<String>()
             for(f: Filtro in filtriActive)result.add(f.text)
             setFragmentResult("requestKey", bundleOf("bundleKey" to result))
 
-            val filtriTrue: List<Filtro> = filtriSuggested.filter { it.active }
+            //val filtriTrue: List<Filtro> = filtriSuggested.filter { it.active }
             var listOutput = "["
-            filtriTrue.forEach { f -> listOutput += "${f.text}," }
+            for (filtro in filtriActive) {
+                listOutput += filtro.text + ','
+            }
+            //filtriTrue.forEach { f -> listOutput += "${f.text}," }
             listOutput = listOutput.substring(0,listOutput.length - 1) //removing last ,
             listOutput += ']'
+
+            //Toast.makeText(activity,listOutput,Toast.LENGTH_LONG).show()
 
             with (sharedPreferences.edit()) {
                 clear()
@@ -155,6 +164,8 @@ class FilterDialogFragment : DialogFragment() {
         val queueP = Volley.newRequestQueue(this.activity)
 
         val stringFilterList = sharedPreferences.getString("filters","[]")
+        //Toast.makeText(activity,stringFilterList,Toast.LENGTH_LONG).show()
+
         val mlistFiltriFromMemory: MutableList<String> = try{
             val typeListFiltroFromString = object : TypeToken<List<String>>() {}.type
             (gson.fromJson(stringFilterList,typeListFiltroFromString) as List<String>).toMutableList()
@@ -192,7 +203,7 @@ class FilterDialogFragment : DialogFragment() {
                     }
 
                     adapterSuggestedFilters.setData(filtriSuggested)
-                    adapterActiveFilters.setData(filtriSuggested.filter{it.active})
+                    adapterActiveFilters.setData(filtriActive.toList())
                 },
                 Response.ErrorListener { err ->
                     Log.println(Log.ERROR,"error",err.toString())

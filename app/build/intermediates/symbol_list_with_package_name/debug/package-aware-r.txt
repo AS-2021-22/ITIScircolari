@@ -1969,7 +1969,6 @@ id bounceEnd
 id bounceStart
 id btnSave
 id btnSuggestion
-id button
 id buttonPanel
 id cache_measures
 id callMeasure
@@ -2553,6 +2552,7 @@ string abc_searchview_description_voice
 string abc_shareactionprovider_share_with
 string abc_shareactionprovider_share_with_application
 string abc_toolbar_collapse_description
+string add
 string androidx_startup
 string app_name
 string appbar_scrolling_view_behavior
