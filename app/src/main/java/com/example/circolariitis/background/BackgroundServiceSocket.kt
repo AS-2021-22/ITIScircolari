@@ -5,10 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
-import android.os.Handler
 import android.os.IBinder
-import android.os.Looper
-import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.circolariitis.MainActivity
@@ -21,16 +18,16 @@ import java.util.*
 
 class BackgroundServiceSocket : Service() {
 
-    private val channel_name = "nuova circolare"
-    private val channel_description = "è stata aggunta una nuova circolare per te su ITIScircolari"
-    private val CHANNEL_ID = "123"
-    private lateinit var pendingIntent: PendingIntent
-    private var notificationId: Int = 0
+    private val channel_name = "canale nuova circolare"
+    private val channel_description = "questo canale contiene le nuove circolari emesse dal server"
+    private val CHANNEL_ID = "jc349cj9c494"
     private val gson = Gson()
+    
+    private lateinit var pendingIntent: PendingIntent
     private lateinit var sharedPreferences: SharedPreferences
-    private lateinit var filters: MutableList<String>
+    private lateinit var filters: MutableList<String> // taken from the memory
 
-    private data class DataUpdate(
+    private data class UpdateCircolareNotification(
         var id: Number = -1,
         var title: String = "No title",
         var tags: List<String> = emptyList()
@@ -66,7 +63,7 @@ class BackgroundServiceSocket : Service() {
         mSocket = SocketHandler.getSocket()
         mSocket.on("update",Emitter.Listener { args ->
 
-            val data: DataUpdate = gson.fromJson(args[0].toString(), DataUpdate::class.java)
+            val data: UpdateCircolareNotification = gson.fromJson(args[0].toString(), UpdateCircolareNotification::class.java)
             /*
             Handler(Looper.getMainLooper()).post {
                 Toast.makeText(this,data.tags.toString(),Toast.LENGTH_LONG).show()
@@ -77,8 +74,7 @@ class BackgroundServiceSocket : Service() {
 
                 with(NotificationManagerCompat.from(this)) {
                     // notificationId is a unique int for each notification that you must define
-                    notify(notificationId, notification)
-                    notificationId ++
+                    notify(UUID.randomUUID().clockSequence(), notification)
                 }
             }
         })
