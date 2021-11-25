@@ -95,7 +95,7 @@ class FilterDialogFragment : DialogFragment() {
                 adapterActiveFilters.setData(filtriActive.toList())
 
                 // if the active filter was also in the suggested filters, it change the state in that RV
-                val n = filtriSuggested.indexOfFirst { it.id == activeFilter.id }
+                val n = filtriSuggested.indexOfFirst { it.text == activeFilter.text }
                 if(n != -1){
                     filtriSuggested[n].active = false
                     adapterSuggestedFilters.setData(filtriSuggested.toList())
@@ -117,7 +117,7 @@ class FilterDialogFragment : DialogFragment() {
         addBtn.setOnClickListener { //this button if clicked save the new filter
             val newFilterName: String = editTextYourFilter.text.toString()
             if(filtriActive.filter{it.text == newFilterName} == emptyList<Filtro>()) { // check if there is no rendundace
-                filtriActive.add(Filtro(filtriActive.size,newFilterName,true))
+                filtriActive.add(Filtro(UUID.randomUUID().toString(),newFilterName,true))
                 adapterActiveFilters.setData(filtriActive.toList())
 
                 // hide soft keyboard programmatically
@@ -145,7 +145,7 @@ class FilterDialogFragment : DialogFragment() {
             //write on memorys
             with (sharedPreferences.edit()) {
                 clear() // clear whatever was written before
-                putString("filters", filtriActive.toList().toString()) //put the string
+                putString("filters", result.toString()) //put the string
                 apply() //'commit'
             }
             dismiss() //close fragment
@@ -162,7 +162,7 @@ class FilterDialogFragment : DialogFragment() {
         val stringFilterList = sharedPreferences.getString("filters","[]") //read
         val typeListFiltroFromString = object : TypeToken<List<String>>() {}.type //define type
         val ffm : List<String> = gson.fromJson(stringFilterList,typeListFiltroFromString) //cast
-        ffm.forEach { filtriActive.add(Filtro(UUID.randomUUID().clockSequence(),it,true)) } //add filter
+        ffm.forEach { filtriActive.add(Filtro(UUID.randomUUID().toString(),it,true)) } //add filter
         adapterActiveFilters.setData(filtriActive) // puts in the RV
         return ffm
     }
@@ -181,7 +181,7 @@ class FilterDialogFragment : DialogFragment() {
                     listFiltriFromServer.forEach {
                         var isActive = false
                         if(filtriFromMemory.contains(it)) isActive = true // if the filter was in the active
-                        filtriSuggested.add(Filtro(UUID.randomUUID().clockSequence(),it,isActive))
+                        filtriSuggested.add(Filtro(UUID.randomUUID().toString(),it,isActive))
                     }
                     adapterSuggestedFilters.setData(filtriSuggested.toList())
                     adapterActiveFilters.setData(filtriActive.toList())

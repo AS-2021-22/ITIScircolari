@@ -2522,8 +2522,6 @@ menu example_menu
 menu example_menu2
 menu menu_filter
 mipmap ic_itis
-mipmap ic_launcher
-mipmap ic_launcher_round
 plurals mtrl_badge_content_description
 string abc_action_bar_home_description
 string abc_action_bar_up_description

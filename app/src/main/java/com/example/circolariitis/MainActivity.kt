@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
@@ -73,7 +74,6 @@ class MainActivity : AppCompatActivity() {
         sharedPreferences = this.getSharedPreferences("filters", Context.MODE_PRIVATE) // open communcation
 
         val stringFilterList = sharedPreferences.getString("filters","[]") //take the value as a string, if is not defined the value is "[]"
-
         val typeListFilterFromString = object : TypeToken<List<String>>() {}.type // define the type to cast
         filters = gson.fromJson(stringFilterList,typeListFilterFromString) // geo cast
 
@@ -116,6 +116,7 @@ class MainActivity : AppCompatActivity() {
     // **************************** SERVER REQUESTS ***********************************************//
 
     private fun circolariPOST(){
+
         val queueP = Volley.newRequestQueue(this)
         val stringReqP : StringRequest =
             object : StringRequest(
@@ -134,7 +135,12 @@ class MainActivity : AppCompatActivity() {
             {
                 override fun getParams(): Map<String, String> {
                     val paramsML: MutableMap<String, String> = HashMap()
-                    paramsML["filter"] = filters.toString()
+                    var s = "["
+                    for(f in filters){
+                        s += '"'+f+'"' + ','
+                    }
+                    s = s.substring(0,s.length-1) + ']'
+                    paramsML["filter"] = s
                     return paramsML
                 }
             }

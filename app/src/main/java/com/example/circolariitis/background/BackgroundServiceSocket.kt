@@ -14,7 +14,6 @@ import com.example.circolariitis.dataClasses.UpdateCircolareNotification
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import io.socket.client.Socket
-import java.util.*
 
 class BackgroundServiceSocket : Service() {
 
@@ -26,6 +25,8 @@ class BackgroundServiceSocket : Service() {
     private lateinit var pendingIntent: PendingIntent
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var filters: List<String> // taken from the memory
+
+    private var progressiveId: Int = 0
 
     private lateinit var mSocket: Socket
 
@@ -60,13 +61,14 @@ class BackgroundServiceSocket : Service() {
                 Toast.makeText(this,data.tags.toString(),Toast.LENGTH_LONG).show()
             }*/
 
-            if (data.tags.contains("tutti") || hasSomethingInCommon(data.tags, filters)) {
+            if (data.tags.contains("tutti") || hasSomethingInCommon(data.tags, filters) || filters.toString() == "[]") {
                 val notification =
                     createNotification("Nuova circolare N: ${data.id}", data.title, pendingIntent)
 
                 with(NotificationManagerCompat.from(this)) {
                     // notificationId is a unique int for each notification that you must define
-                    notify(UUID.randomUUID().clockSequence(), notification)
+                    notify(progressiveId, notification)
+                    progressiveId++
                 }
             }
         }

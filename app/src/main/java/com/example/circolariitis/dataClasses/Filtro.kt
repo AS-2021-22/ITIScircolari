@@ -2,7 +2,7 @@ package com.example.circolariitis.dataClasses
 
 //this is the filter class
 data class Filtro(
-    var id:Int,
+    var id:String,
     var text: String,
     var active: Boolean
 ){
