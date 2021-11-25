@@ -16,7 +16,7 @@ export default io
 
 const PORT = process.env.PORT || 3000
 
-console.log('connectiong to DB.....');
+console.log('connecting to DB.....');
 
 const filters = ['quinte','quarte','terze','seconde','prime','biennio','triennio','studenti','professori','ATA','genitori']
 

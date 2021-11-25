@@ -11,7 +11,7 @@ routerCircolari.get('/',(req:any,res:any) => {
 
 routerCircolari.get('/:id',(req:Request,res:Response) => {
     let n = parseInt(req.params.id)
-    CircolareModel.find({"id":n}).then(result => res.json(result[0])).catch(e => res.json([]))
+    CircolareModel.find({"id":n}).then((result) => res.json(result[0])).catch(e => res.json([]))
 })
 
 routerCircolari.post('/write', async (req:Request,res:Response) => {
