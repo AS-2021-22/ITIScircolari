@@ -10,6 +10,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.circolariitis.MainActivity
 import com.example.circolariitis.R
+import com.example.circolariitis.dataClasses.UpdateCircolareNotification
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import io.socket.client.Socket
@@ -25,75 +26,72 @@ class BackgroundServiceSocket : Service() {
     
     private lateinit var pendingIntent: PendingIntent
     private lateinit var sharedPreferences: SharedPreferences
-    private lateinit var filters: MutableList<String> // taken from the memory
-
-    private data class UpdateCircolareNotification(
-        var id: Number = -1,
-        var title: String = "No title",
-        var tags: List<String> = emptyList()
-    ){
-        override fun toString(): String {
-            return "{id:$id,title:$title,tags:${tags.toString()}}"
-        }
-    }
+    private lateinit var filters: List<String> // taken from the memory
 
     private lateinit var mSocket: Socket
 
     override fun onCreate() {
         super.onCreate()
 
+
+        // **********************************+++ read filters from memory *********************************//
         sharedPreferences = this.getSharedPreferences("filters", Context.MODE_PRIVATE)
         val stringFilterList = sharedPreferences.getString("filters","[]")
-        filters = try{
-            val typeListFilterFromString = object : TypeToken<MutableList<String>>() {}.type
-            (gson.fromJson(stringFilterList,typeListFilterFromString) as MutableList<String>)
-        }catch(e: Exception){
-            Collections.emptyList()
-        }
+        val typeListFilterFromString = object : TypeToken<List<String>>() {}.type
+        filters = gson.fromJson(stringFilterList,typeListFilterFromString)
 
+        //************************************* starts notification menagement ***************************//
         createNotificationChannel()
-
         val intentNotification = Intent(this, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
-        pendingIntent = PendingIntent.getActivity(this, 0, intentNotification, 0)
+        pendingIntent = PendingIntent.getActivity(this, 0, intentNotification, PendingIntent.FLAG_IMMUTABLE)
 
+
+        //********************************** starts socket connection ********************************//
         SocketHandler.setSocket()
         SocketHandler.establishConnection()
         mSocket = SocketHandler.getSocket()
-        mSocket.on("update",Emitter.Listener { args ->
+        mSocket.on("update") { args ->
 
-            val data: UpdateCircolareNotification = gson.fromJson(args[0].toString(), UpdateCircolareNotification::class.java)
-            /*
+            val data: UpdateCircolareNotification =
+                gson.fromJson(args[0].toString(), UpdateCircolareNotification::class.java)
+            /* //if it is needed to toast someting take this code
             Handler(Looper.getMainLooper()).post {
                 Toast.makeText(this,data.tags.toString(),Toast.LENGTH_LONG).show()
             }*/
 
-            if(data.tags.contains("tutti") || hasSomethingInCommon(data.tags,filters)){
-                val notification = createNotification("Nuova circolare N: ${data.id}",data.title, pendingIntent)
+            if (data.tags.contains("tutti") || hasSomethingInCommon(data.tags, filters)) {
+                val notification =
+                    createNotification("Nuova circolare N: ${data.id}", data.title, pendingIntent)
 
                 with(NotificationManagerCompat.from(this)) {
                     // notificationId is a unique int for each notification that you must define
                     notify(UUID.randomUUID().clockSequence(), notification)
                 }
             }
-        })
+        }
 
     }
 
+
+    // ************************ check if two arrays has an element in common ************************//
     private fun hasSomethingInCommon(l1: List<String>, l2: List<String>): Boolean {
         for(a in l1) if (l2.contains(a)) return true
         return false
     }
 
+    // *********************+++ here is where you can set the communication between background and activity *******//
     override fun onBind(intent: Intent): IBinder? {
         return null
     }
 
+    //********************* when you start the background it return START_STYKY ******************++//
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         return START_STICKY //when the application is closed this background is recreated
     }
 
+    //*********************** generate the channel for the notification *************************/
     private fun createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
@@ -111,6 +109,7 @@ class BackgroundServiceSocket : Service() {
         }
     }
 
+    // ******************************** returns a builded notification ***********************//
     private fun createNotification(title:String,text:String, intent: PendingIntent?): Notification {
         return NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_school_notification)
