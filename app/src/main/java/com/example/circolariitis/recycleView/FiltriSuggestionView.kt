@@ -26,12 +26,8 @@ class FiltriSuggestionView : RecyclerView.Adapter<FiltriSuggestionView.ViewHolde
         mListener = listener
     }
 
-    fun getFiltri () : List<Filtro>{
-        return filtri
-    }
-
-    inner class ViewHolder(itemView: View, listener: FiltriSuggestionView.OnItemClickListener) : RecyclerView.ViewHolder(itemView){
-        val filtro = itemView.findViewById<TextView>(R.id.filterTV)
+    inner class ViewHolder(itemView: View, listener: OnItemClickListener) : RecyclerView.ViewHolder(itemView){
+        val filtro : TextView = itemView.findViewById(R.id.filterTV)
         init{
             itemView.setOnClickListener{
                 listener.onItemClick(absoluteAdapterPosition)

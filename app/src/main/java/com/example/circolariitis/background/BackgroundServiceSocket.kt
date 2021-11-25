@@ -14,14 +14,13 @@ import com.example.circolariitis.dataClasses.UpdateCircolareNotification
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import io.socket.client.Socket
-import io.socket.emitter.Emitter
 import java.util.*
 
 class BackgroundServiceSocket : Service() {
 
-    private val channel_name = "canale nuova circolare"
-    private val channel_description = "questo canale contiene le nuove circolari emesse dal server"
-    private val CHANNEL_ID = "jc349cj9c494"
+    private val channelName = "canale nuova circolare"
+    private val channelDescription = "questo canale contiene le nuove circolari emesse dal server"
+    private val channelID = "jc349cj9c494"
     private val gson = Gson()
     
     private lateinit var pendingIntent: PendingIntent
@@ -96,10 +95,10 @@ class BackgroundServiceSocket : Service() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = channel_name
-            val descriptionText = channel_description
+            val name = channelName
+            val descriptionText = channelDescription
             val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+            val channel = NotificationChannel(channelID, name, importance).apply {
                 description = descriptionText
             }
             // Register the channel with the system
@@ -111,7 +110,7 @@ class BackgroundServiceSocket : Service() {
 
     // ******************************** returns a builded notification ***********************//
     private fun createNotification(title:String,text:String, intent: PendingIntent?): Notification {
-        return NotificationCompat.Builder(this, CHANNEL_ID)
+        return NotificationCompat.Builder(this, channelID)
             .setSmallIcon(R.drawable.ic_school_notification)
             .setContentTitle(title)
             .setContentText(text)

@@ -9,16 +9,16 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.circolariitis.R
 import com.example.circolariitis.dataClasses.Filtro
-import com.example.circolariitis.diffUtils.FiltriSuggestedDiffutil
+import com.example.circolariitis.diffUtils.FiltriActiveDiffutil
 
 class FiltriActiveView : RecyclerView.Adapter<FiltriActiveView.ViewHolder>()  {
 
-    private var activeFilters: List<Filtro> = emptyList()
-    private lateinit var mListener : FiltriActiveView.OnItemClickListener
+    private var activeFilters : List<Filtro> = emptyList()
+    private lateinit var mListener : OnItemClickListener
 
-    inner class ViewHolder(itemView: View, listener: FiltriActiveView.OnItemClickListener) : RecyclerView.ViewHolder(itemView){
-        val activeFilterName = itemView.findViewById<TextView>(R.id.activeFilterName)
-        val deleteIMG = itemView.findViewById<ImageView>(R.id.deleteIMG)
+    inner class ViewHolder(itemView: View, listener: OnItemClickListener) : RecyclerView.ViewHolder(itemView){
+        val activeFilterName : TextView = itemView.findViewById(R.id.activeFilterName)
+        private val deleteIMG : ImageView = itemView.findViewById(R.id.deleteIMG)
 
         init{
             deleteIMG.setOnClickListener{
@@ -49,7 +49,7 @@ class FiltriActiveView : RecyclerView.Adapter<FiltriActiveView.ViewHolder>()  {
     }
 
     fun setData(newList: List<Filtro>){
-        val diffutil = FiltriSuggestedDiffutil(activeFilters,newList)
+        val diffutil = FiltriActiveDiffutil(activeFilters,newList)
         val diffResult = DiffUtil.calculateDiff(diffutil)
         activeFilters = newList
         diffResult.dispatchUpdatesTo(this)

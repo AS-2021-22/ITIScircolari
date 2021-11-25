@@ -25,9 +25,7 @@ class DisplayCircolareFull : AppCompatActivity() {
         activityViewElements = ActivityDisplayCircolareFullBinding.inflate(layoutInflater)
         setContentView(activityViewElements.root)
 
-        val id = intent.getIntExtra("id",0)
-
-        //Toast.makeText(this,id,Toast.LENGTH_LONG).show()
+        val id = intent.getIntExtra("id",0) // get data from the other activity
 
         val queue = Volley.newRequestQueue(this)
         val stringReq : StringRequest =
