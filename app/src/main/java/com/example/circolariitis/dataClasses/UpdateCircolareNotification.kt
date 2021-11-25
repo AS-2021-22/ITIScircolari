@@ -1,5 +1,7 @@
 package com.example.circolariitis.dataClasses
 
+// this is the data that server socket sends to the client for the notification
+
 data class UpdateCircolareNotification(
     var id: Number = -1,
     var title: String = "No title",

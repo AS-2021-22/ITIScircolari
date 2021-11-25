@@ -33,11 +33,11 @@ import java.util.*
 
 class FilterDialogFragment : DialogFragment() {
 
-    private val gson: Gson = Gson()
-    private lateinit var sharedPreferences: SharedPreferences
+    private val gson: Gson = Gson() // JSON converter
+    private lateinit var sharedPreferences: SharedPreferences // memory reader
 
-    private var filtriSuggested: MutableList<Filtro> = mutableListOf()
-    private var filtriActive: MutableList<Filtro> = mutableListOf()
+    private var filtriSuggested: MutableList<Filtro> = mutableListOf() // list of suggested filters
+    private var filtriActive: MutableList<Filtro> = mutableListOf() // list of active filters
 
     private lateinit var adapterSuggestedFilters: FiltriSuggestionView
     private lateinit var adapterActiveFilters: FiltriActiveView
@@ -53,62 +53,70 @@ class FilterDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         super.onViewCreated(view, savedInstanceState)
-        sharedPreferences = activity?.getSharedPreferences("filters", Context.MODE_PRIVATE) ?: return
+
+        // ************ get components from the view ***************//
+        val btnSave = view.findViewById<Button>(R.id.btnSave)
+        val btnSuggestion = view.findViewById<Button>(R.id.btnSuggestion)
+        val editTextYourFilter = view.findViewById<EditText>(R.id.filtroET)
+        val addBtn = view.findViewById<Button>(R.id.addBtn)
         val recyclerViewSuggestedFilters = view.findViewById<RecyclerView>(R.id.recycleViewSuggestedFilter)
+        val recyclerViewActiveFilters = view.findViewById<RecyclerView>(R.id.recycleViewActiveFilters)
+
+        sharedPreferences = activity?.getSharedPreferences("filters", Context.MODE_PRIVATE) ?: return
+
+        //*****************************+++ setting up suggested filters RV ******************//
         adapterSuggestedFilters = FiltriSuggestionView()
         adapterSuggestedFilters.setOnItemClickListener(object: FiltriSuggestionView.OnItemClickListener{
             override fun onItemClick(position: Int) {
-                filtriSuggested[position].active = !filtriSuggested[position].active
-                if(filtriSuggested[position].active){
+                filtriSuggested[position].active = !filtriSuggested[position].active // change the filter state
+                if(filtriSuggested[position].active){ // if active == true ..... add to active
                     filtriActive.add(filtriSuggested[position])
                     adapterActiveFilters.setData(filtriActive.toList())
-
-                } else {
+                } else { // if active == false .... remove from active
                     filtriActive.remove(filtriSuggested[position])
                     adapterActiveFilters.setData(filtriActive.toList())
 
                 }
+                // update the suggestedFilters RV with the new active state
                 adapterSuggestedFilters.setData(filtriSuggested.toList())
                 adapterSuggestedFilters.notifyItemChanged(position)
-
-                //Toast.makeText(context, "${filtriSuggested[position].active}", Toast.LENGTH_LONG).show()
             }
         })
-        recyclerViewSuggestedFilters.layoutManager = GridLayoutManager(activity,3)
-        recyclerViewSuggestedFilters.adapter = adapterSuggestedFilters
+        recyclerViewSuggestedFilters.apply {
+            layoutManager = GridLayoutManager(activity,3)
+            adapter = adapterSuggestedFilters
+        }
 
-
-        // recycle view ActiveFilters
-        val recyclerViewActiveFilters = view.findViewById<RecyclerView>(R.id.recycleViewActiveFilters)
+        //*****************************+++ setting up active filters RV ******************//
         adapterActiveFilters = FiltriActiveView()
         adapterActiveFilters.setOnItemClickListener(object: FiltriActiveView.OnItemClickListener{
-            override fun onItemClick(activeFilter: Filtro, position: Int) {
+            override fun onItemClick(activeFilter: Filtro, position: Int) { // when delete icon is clicked
                 filtriActive.remove(activeFilter)
                 adapterActiveFilters.setData(filtriActive.toList())
 
+                // if the active filter was also in the suggested filters, it change the state in that RV
                 val n = filtriSuggested.indexOfFirst { it.id == activeFilter.id }
                 if(n != -1){
                     filtriSuggested[n].active = false
                     adapterSuggestedFilters.setData(filtriSuggested.toList())
                     adapterSuggestedFilters.notifyItemChanged(n)
                 }
-
             }
         })
-        recyclerViewActiveFilters.layoutManager = LinearLayoutManager(activity)
-        recyclerViewActiveFilters.adapter = adapterActiveFilters
+        recyclerViewActiveFilters.apply{
+            layoutManager = LinearLayoutManager(activity)
+            adapter = adapterActiveFilters
+        }
 
+        // ************** load filters (memory and server) *******//
         loadFiltri()
 
-        val btnSave = view.findViewById<Button>(R.id.btnSave)
-        val btnSuggestion = view.findViewById<Button>(R.id.btnSuggestion)
-        val editTextYourFilter = view.findViewById<EditText>(R.id.filtroET)
-        val addBtn = view.findViewById<Button>(R.id.addBtn)
-        
-        editTextYourFilter.setImeActionLabel("Save filter",KeyEvent.KEYCODE_ENTER)
-        addBtn.setOnClickListener {
+        // ****************** buttons listeners ***********************//
+
+        editTextYourFilter.setImeActionLabel("Save filter",KeyEvent.KEYCODE_ENTER) // this line looks like it is not working
+        addBtn.setOnClickListener { //this button if clicked save the new filter
             val newFilterName: String = editTextYourFilter.text.toString()
-            if(filtriActive.filter{it.text == newFilterName} == emptyList<Filtro>()) {
+            if(filtriActive.filter{it.text == newFilterName} == emptyList<Filtro>()) { // check if there is no rendundace
                 filtriActive.add(Filtro(filtriActive.size,newFilterName,true))
                 adapterActiveFilters.setData(filtriActive.toList())
 
@@ -120,39 +128,31 @@ class FilterDialogFragment : DialogFragment() {
             }
         }
 
+        //************ show/hide suggestions****++++//
         btnSuggestion.setOnClickListener {
             if(recyclerViewSuggestedFilters.visibility == VISIBLE) recyclerViewSuggestedFilters.visibility = GONE
             else recyclerViewSuggestedFilters.visibility = VISIBLE
         }
 
+        // *********** save filters on the memory and close the fragment ******//
         btnSave.setOnClickListener {
 
-            // send back to main activity
+            // send back to main activity with a message in FragmentResult as List<String>
             val result = mutableListOf<String>()
             for(f: Filtro in filtriActive)result.add(f.text)
             setFragmentResult("requestKey", bundleOf("filtersAsList<String>" to result))
 
-            //val filtriTrue: List<Filtro> = filtriSuggested.filter { it.active }
-            var listOutput = "["
-            for (filtro in filtriActive) {
-                listOutput += filtro.text + ','
-            }
-            //filtriTrue.forEach { f -> listOutput += "${f.text}," }
-            listOutput = listOutput.substring(0,listOutput.length - 1) //removing last ,
-            listOutput += ']'
-
-            //Toast.makeText(activity,listOutput,Toast.LENGTH_LONG).show()
-
+            //write on memorys
             with (sharedPreferences.edit()) {
-                clear()
-                putString("filters", listOutput)
-                apply()
+                clear() // clear whatever was written before
+                putString("filters", filtriActive.toList().toString()) //put the string
+                apply() //'commit'
             }
-            //val writtenString: String? = sharedPreferences.getString("test","writtenString") //if the string doesn't exists takes the second value
             dismiss() //close fragment
         }
     }
 
+    // ***** loads data.... from memory and from the server *****************//
     private fun loadFiltri(){
         val ffm: List<String> = filtriFromMemory()
         filtriPOST(ffm)

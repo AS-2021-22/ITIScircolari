@@ -1,5 +1,6 @@
 package com.example.circolariitis.dataClasses
 
+//this is the filter class
 data class Filtro(
     var id:Int,
     var text: String,

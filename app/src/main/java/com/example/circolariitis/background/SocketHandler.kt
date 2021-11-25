@@ -5,6 +5,8 @@ import io.socket.client.IO
 import io.socket.client.Socket
 import java.net.URISyntaxException
 
+// this is copied from internet, it contains all for the socket connection
+
 object SocketHandler {
     lateinit var mSocket: Socket
 
