@@ -17,7 +17,7 @@
         <service
             android:name=".background.BackgroundServiceSocket"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="true" />
 
         <activity
             android:name=".activities.DisplayCircolareFull"

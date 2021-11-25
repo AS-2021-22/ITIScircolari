@@ -42,7 +42,7 @@
 26        android:usesCleartextTraffic="true" >
 26-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:16:9-44
 27        <service
-27-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:17:9-20:38
+27-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:17:9-20:39
 28            android:name="com.example.circolariitis.background.BackgroundServiceSocket"
 28-->C:\Users\jocar\AndroidStudioProjects\CircolariITIS\app\src\main\AndroidManifest.xml:18:13-63
 29            android:enabled="true"

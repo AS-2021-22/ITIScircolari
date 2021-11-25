@@ -73,9 +73,9 @@ class FilterDialogFragment : DialogFragment() {
                     filtriActive.add(filtriSuggested[position])
                     adapterActiveFilters.setData(filtriActive.toList())
                 } else { // if active == false .... remove from active
-                    filtriActive.remove(filtriSuggested[position])
+                    val n = filtriActive.indexOfFirst { it.text == filtriSuggested[position].text } //can't just remove because the ID is unique
+                    if(n != -1)filtriActive.removeAt(n)
                     adapterActiveFilters.setData(filtriActive.toList())
-
                 }
                 // update the suggestedFilters RV with the new active state
                 adapterSuggestedFilters.setData(filtriSuggested.toList())
