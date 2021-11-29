@@ -34,6 +34,7 @@ const WriteCircolare: FunctionComponent<WriteCircolareProps> = () => {
             } else if(value === true) l.push(key)
         }
         obj['tags'] = l
+        console.log(obj)
         fetch((process.env.REACT_APP_URL as string) + 'circolari/write',{
             method: 'POST',
             mode: 'cors',
